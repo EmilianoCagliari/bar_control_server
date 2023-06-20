@@ -1,57 +1,33 @@
-import {Controller, Body, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import {Controller, Post, Get, UseGuards, Request } from '@nestjs/common';
+
 import { log } from 'console';
+
+import { AuthService } from './auth.service';
+
+import { LocalAuthGuard } from './local-auth.guard';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
 
     constructor( private authService: AuthService ) {}
 
+    @UseGuards(LocalAuthGuard)  // Guard para validacion de clave
     @Post('/login')
-    async login( @Body() userData: any) {
-        
-        console.log( "email:", userData.email);
-        console.log( "password:", userData.password);
-        
-        try {
-        
-            //VErificar si es un usuario valido
-            const user = await this.authService.validateUser( userData.email, userData.password);
+    async login( @Request() req: any) {
 
+        log('USER:', req.user);
 
+        return this.authService.login(req.user);   
+    }
 
-            if( user ){
-
-
-
-                // const {
-                //     name,
-                //     surname,
-                //     password,
-                //     isActive,
-                //     createdAt,
-                //     updatedAt, ...dataUser} = user.dataValues;
-
-                // log("DATA USER", dataUser);
-
-                // log("JWT_KEY:", process.env.JWT_KEY);
-
-                //Generacion del access_token con JwT
-                const token = this.authService.login(user);
-                return token;
-
-            } else {
-                return {
-                    'msg': "Error al iniciar sesión"
-                }
-            }            
-                        
-        } catch (err) {
-            log("error", err);
-            return err;
+    @UseGuards(JwtAuthGuard)
+    @Get('/validate')
+    validate(@Request() req: any) {
+        log("Validar REQ:", req);
+        return {
+            'msg': 'Accede a endpoint Validate'
         }
-        
-
     }
 
 
