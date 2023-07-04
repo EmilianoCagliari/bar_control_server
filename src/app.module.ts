@@ -12,8 +12,10 @@ import { AuthModule } from './auth/auth.module';
     // Config Data (dotenv)
     ConfigModule.forRoot({
       isGlobal: true,
+      cache: true,
       envFilePath: '.env.local'
     }),
+    
     // Database Data
     SequelizeModule.forRoot({
       dialect: 'mariadb',

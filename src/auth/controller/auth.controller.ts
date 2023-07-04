@@ -22,9 +22,9 @@ export class AuthController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get('/validate')
-    validate(@Request() req: any) {
-        log("Validar REQ:", req);
+    @Get('/getJwt')
+    async getJwt(@Request() req: any) {
+        // log("Validar REQ:", req);
         return {
             'msg': 'Accede a endpoint Validate'
         }
