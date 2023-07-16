@@ -14,10 +14,7 @@ export class UsersController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
 
-    
-    
     console.log('Password SIN Hash', createUserDto.password);
-    
     
     //Password encrypt
     const salt = await bcrypt.genSalt();  
@@ -26,8 +23,6 @@ export class UsersController {
 
     console.log('Password Hash', createUserDto.password);
     
-
-
     return this.usersService.create(createUserDto);
   }
 

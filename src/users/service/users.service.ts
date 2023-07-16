@@ -13,29 +13,35 @@ export class UsersService {
   ) { }
 
 
-  create(createUserDto: any) {
-    return this.userModel.create(createUserDto);
+  async create(createUserDto: any) {
+    return await this.userModel.create(createUserDto);
   }
 
-  findAll() {
-    return this.userModel.findAll();
+  async findAll() {
+    return await this.userModel.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+
+    const resp = await this.userModel.findByPk(+id);
+
+    const user =  (resp != null) ? resp : { msg: "Not Found" };
+    
+    return user;
+    
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} user`;
   }
 
   //Custom
-  findEmail(email: string) {
-    return this.userModel.findOne({ where: { 'email': `${email}` } });
+  async findEmail(email: string) {
+    return await this.userModel.findOne({ where: { 'email': `${email}` } });
   }
 
 
