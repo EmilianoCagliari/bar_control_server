@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 
 import { UpdateUserDto } from '../model/dto/update-user.dto';
@@ -14,7 +14,16 @@ export class UsersService {
 
 
   async create(createUserDto: any) {
-    return await this.userModel.create(createUserDto);
+
+    let created = null;
+    //verificar si el email esta creado
+    const isEmailExists = await this.findEmail(createUserDto.email);
+
+    if (!isEmailExists) {
+      created = await this.userModel.create(createUserDto);
+    }
+
+    return created
   }
 
   async findAll() {
@@ -25,18 +34,33 @@ export class UsersService {
 
     const resp = await this.userModel.findByPk(+id);
 
-    const user =  (resp != null) ? resp : { msg: "Not Found" };
-    
+    console.log("findOne:", resp);
+    const user = (resp != null) ? resp : { msg: "Not Found" };
+
     return user;
-    
+
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+
+    const user = await this.userModel.findByPk(+id);
+
+    if(!user){
+      throw new NotFoundException('User not found');
+    }
+
+    return await user.update(updateUserDto);
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} user`;
+
+   const deleted = await this.userModel.destroy({ where: { id: +id } });
+    if( !deleted ) {
+      throw new HttpException( { msg: 'Error al eliminar el registro'}, HttpStatus.BAD_REQUEST);
+    }
+
+    return { msg: 'Registro eliminado correctamente'};
+    // return `This action removes a #${id} user`;
   }
 
   //Custom

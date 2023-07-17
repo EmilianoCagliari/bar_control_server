@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 
@@ -14,6 +14,7 @@ export class UsersController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
 
+    
     console.log('Password SIN Hash', createUserDto.password);
     
     //Password encrypt
@@ -23,7 +24,13 @@ export class UsersController {
 
     console.log('Password Hash', createUserDto.password);
     
-    return this.usersService.create(createUserDto);
+    const response =  await this.usersService.create(createUserDto);
+
+    if(response == null) {
+      throw new HttpException( { msg: 'El email ingresado esta registrado.' }, HttpStatus.BAD_REQUEST);
+    }
+
+    return response;
   }
 
   @Get()
@@ -42,7 +49,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string) {    
     return this.usersService.remove(+id);
   }
 }
