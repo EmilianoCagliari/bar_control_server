@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { User } from './users/model/entities/user.entity';
 import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
+import { SeedService } from './dbAdmin/seed.service';
 
 @Module({
   imports: [
@@ -35,6 +36,6 @@ import { AuthModule } from './auth/auth.module';
     AuthModule
   ],
   controllers: [],
-  providers: [],
+  providers: [SeedService],
 })
 export class AppModule { }

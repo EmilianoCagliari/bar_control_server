@@ -32,10 +32,11 @@ export class UsersService {
 
   async findOne(id: number) {
 
-    const resp = await this.userModel.findByPk(+id);
+    const user = await this.userModel.findByPk(+id);
 
-    console.log("findOne:", resp);
-    const user = (resp != null) ? resp : { msg: "Not Found" };
+    if(!user){
+      throw new NotFoundException('Usuario no encontrado');
+    }
 
     return user;
 
@@ -46,7 +47,7 @@ export class UsersService {
     const user = await this.userModel.findByPk(+id);
 
     if(!user){
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Usuario no encontrado');
     }
 
     return await user.update(updateUserDto);
