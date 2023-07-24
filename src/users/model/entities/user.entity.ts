@@ -1,4 +1,6 @@
 import { Column, Model, Table } from "sequelize-typescript";
+import { Role } from "../enum/role.enum";
+import { DataTypes } from "sequelize";
 
 @Table
 export class User extends Model {
@@ -14,6 +16,9 @@ export class User extends Model {
 
     @Column
     password: string;
+
+    @Column({ type: DataTypes.STRING, defaultValue: JSON.stringify([Role.User])  })
+    role: string;
 
     @Column({ defaultValue: true })
     isActive: boolean

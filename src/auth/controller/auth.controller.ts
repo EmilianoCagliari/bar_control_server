@@ -6,6 +6,9 @@ import { AuthService } from '../service/auth.service';
 
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { HasRoles } from '../decorators/roles.decorator';
+import { Role } from 'src/users/model/enum/role.enum';
+import { RolesGuard } from '../guards/roles-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -21,7 +24,8 @@ export class AuthController {
         return this.authService.login(req.user);   
     }
 
-    @UseGuards(JwtAuthGuard)
+    @HasRoles(Role.User)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Get('/getJwt')
     async getJwt(@Request() req: any) {
         // log("Validar REQ:", req);

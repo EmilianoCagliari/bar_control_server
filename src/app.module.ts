@@ -7,6 +7,11 @@ import { User } from './users/model/entities/user.entity';
 import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 import { SeedService } from './dbAdmin/seed.service';
+import { BrandsModule } from './brands/brands.module';
+import { WeightRegisterModule } from './weight_register/weight_register.module';
+import { Product } from './products/model/entities/product.entity';
+import { WeightRegister } from './weight_register/model/entities/weight_register.entity';
+import { Brand } from './brands/model/entities/brand.entity';
 
 @Module({
   imports: [
@@ -27,15 +32,24 @@ import { SeedService } from './dbAdmin/seed.service';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       autoLoadModels: true,
+      // synchronize: true,
       models: [
-        User
+        User,
+        Product,
+        Brand,
+        WeightRegister
       ],      
     }),
+
     UsersModule,
     ProductsModule,
-    AuthModule
+    AuthModule,
+    BrandsModule,
+    WeightRegisterModule
   ],
   controllers: [],
-  providers: [SeedService],
+  providers: [
+    SeedService
+  ],
 })
 export class AppModule { }

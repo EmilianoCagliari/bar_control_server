@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from 'src/users/model/entities/user.entity';
 import { UsersService } from 'src/users/service/users.service';
 import * as bcrypt from 'bcrypt';
+import { Role } from 'src/users/model/enum/role.enum';
 
 @Injectable()
 export class SeedService {
@@ -20,8 +21,10 @@ export class SeedService {
             name: "admin",
             surname: "admin",
             email: "admin@barcontrol.com",
-            password: "Admin123."
+            password: "Admin123.",
+            role: JSON.stringify( [Role.Admin] )
         })
+        
 
         console.log("AdminUser:", AdminUser);
 

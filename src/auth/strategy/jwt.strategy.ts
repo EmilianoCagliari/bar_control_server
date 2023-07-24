@@ -12,14 +12,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_KEY,
     });
-    
-    
+
+
   }
 
   async validate(payload: any) {
+    console.log('Payload', payload);
+    console.log( typeof payload.roles);
+    
 
-    log('Payload', payload);
-    return { email: payload.email, userId: payload.userId  };
+    return {
+      email: payload.email,
+      userId: payload.userId,
+      roles: payload.roles
+    };
     // return { userId: payload.sub, username: payload.username };
   }
 }
