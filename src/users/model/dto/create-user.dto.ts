@@ -3,9 +3,11 @@ import { IsString, IsEmail, IsNumber, IsNotEmpty, IsOptional } from "class-valid
 export class CreateUserDto {
     
     @IsString()
+    @IsNotEmpty()
     name: string;
     
     @IsString()
+    @IsNotEmpty()
     surname: string;
 
     @IsEmail()

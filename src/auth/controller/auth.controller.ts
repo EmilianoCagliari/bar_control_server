@@ -1,14 +1,15 @@
 import {Controller, Post, Get, UseGuards, Request } from '@nestjs/common';
 
-import { log } from 'console';
 
 import { AuthService } from '../service/auth.service';
 
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { HasRoles } from '../decorators/roles.decorator';
-import { Role } from 'src/users/model/enum/role.enum';
 import { RolesGuard } from '../guards/roles-auth.guard';
+
+import { HasRoles } from '../decorators/roles.decorator';
+
+import { Role } from 'src/users/model/enum/role.enum';
 
 @Controller('auth')
 export class AuthController {

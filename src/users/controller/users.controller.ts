@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 
@@ -8,6 +8,10 @@ import { UsersService } from '../service/users.service';
 import { PatchUserTransformer } from '../model/transformers/patch-user.transofrmer';
 import { CreateUserDto } from '../model/dto/create-user.dto';
 import { UpdateUserDto } from '../model/dto/update-user.dto';
+import { HasRoles } from 'src/auth/decorators/roles.decorator';
+import { Role } from '../model/enum/role.enum';
+import { RolesGuard } from 'src/auth/guards/roles-auth.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 
 @Controller('users')
@@ -66,6 +70,8 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
+  @HasRoles(Role.Admin)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto ) {
     // const updateUserDto = this.patchUserTransformer.transform(body);
