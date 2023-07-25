@@ -17,8 +17,9 @@ export class User extends Model {
     @Column
     password: string;
 
-    @Column({ type: DataTypes.STRING, defaultValue: JSON.stringify([Role.User])  })
-    role: string;
+    // @Column({ type: DataTypes.STRING, defaultValue: JSON.stringify(Role.User)  })
+    @Column({ defaultValue: Role.User })
+    role: number;
 
     @Column({ defaultValue: true })
     isActive: boolean
