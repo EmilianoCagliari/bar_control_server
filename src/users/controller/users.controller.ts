@@ -18,25 +18,28 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
-    private readonly patchUserTransformer: PatchUserTransformer) {}
+    private readonly patchUserTransformer: PatchUserTransformer) { }
 
+
+  @HasRoles(Role.Admin)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
 
     console.log('Password SIN Hash', createUserDto.password);
 
-    
+
     //Password encrypt
-    const salt = await bcrypt.genSalt();  
+    const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(createUserDto.password, salt);
     createUserDto.password = hash;
 
     console.log('Password Hash', createUserDto.password);
-    
-    const user =  await this.usersService.create(createUserDto);
 
-    if(user == null) {
-      throw new HttpException( { msg: 'El email ingresado esta registrado.' }, HttpStatus.BAD_REQUEST);
+    const user = await this.usersService.create(createUserDto);
+
+    if (user == null) {
+      throw new HttpException({ msg: 'El email ingresado esta registrado.' }, HttpStatus.BAD_REQUEST);
     }
 
     //Formatear la estructura de devolucion al generarse un nuevo usuario
@@ -54,17 +57,19 @@ export class UsersController {
 
     const final_response = {
       'user_created': true,
-      'data': response 
+      'data': response
     }
 
     return final_response;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
@@ -73,13 +78,15 @@ export class UsersController {
   @HasRoles(Role.Admin)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto ) {
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     // const updateUserDto = this.patchUserTransformer.transform(body);
     return this.usersService.update(+id, updateUserDto);
   }
 
+  @HasRoles(Role.Admin)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {    
+  remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
 }

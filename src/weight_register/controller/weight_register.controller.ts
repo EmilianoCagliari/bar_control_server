@@ -1,8 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+
 import { WeightRegisterService } from '../service/weight_register.service';
+
 import { CreateWeightRegisterDto } from '../model/dto/create-weight_register.dto';
 import { UpdateWeightRegisterDto } from '../model/dto/update-weight_register.dto';
 
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+
+// @UseGuards(JwtAuthGuard)
 @Controller('weight-register')
 export class WeightRegisterController {
   constructor(private readonly weightRegisterService: WeightRegisterService) {}
