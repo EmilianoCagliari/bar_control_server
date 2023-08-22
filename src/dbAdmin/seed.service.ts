@@ -22,7 +22,7 @@ export class SeedService {
             surname: "admin",
             email: "admin@barcontrol.com",
             password: "Admin123.",
-            role: JSON.stringify( [Role.Admin] )
+            role: Role.Admin
         })
         
 

@@ -7,8 +7,10 @@ import { InjectModel } from '@nestjs/sequelize';
 @Injectable()
 export class BrandsService {
 
-  constructor(@InjectModel(Brand)
-  private brandModel: typeof Brand,) { }
+  constructor(
+    @InjectModel(Brand)
+    private brandModel: typeof Brand
+  ) { }
 
   async create(createBrandDto: any) {
 
@@ -25,11 +27,11 @@ export class BrandsService {
   }
 
   findAll() {
-    return `This action returns all brands`;
+    return this.brandModel.findAll();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} brand`;
+    return this.brandModel.findByPk(+id);
   }
 
   update(id: number, updateBrandDto: UpdateBrandDto) {

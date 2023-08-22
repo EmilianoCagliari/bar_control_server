@@ -32,6 +32,9 @@ import { Brand } from './brands/model/entities/brand.entity';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       autoLoadModels: true,
+      // sync: {
+      //   force: true  // Delete and create database
+      // },
       // synchronize: true,
       models: [
         User,

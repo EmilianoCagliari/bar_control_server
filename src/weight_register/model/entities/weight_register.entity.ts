@@ -1,12 +1,12 @@
-import { Model, Column, ForeignKey, HasOne, Table, BelongsTo } from "sequelize-typescript";
+import { Model, Column, ForeignKey, HasOne, Table, BelongsTo, DataType } from "sequelize-typescript";
 import { Product } from "src/products/model/entities/product.entity";
 import { User } from "src/users/model/entities/user.entity";
 
 @Table
 export class WeightRegister extends Model {
 
-    @Column
-    weight: string;
+    @Column({ type: DataType.FLOAT(4, 2) })
+    weight: number;
 
     @ForeignKey(() => Product)
     @Column
