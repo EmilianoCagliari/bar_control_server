@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateBrandDto } from '../model/dto/create-brand.dto';
 import { UpdateBrandDto } from '../model/dto/update-brand.dto';
 import { Brand } from '../model/entities/brand.entity';
@@ -36,10 +36,16 @@ export class BrandsService {
 
   update(id: number, updateBrandDto: UpdateBrandDto) {
     return updateBrandDto;
-    return `This action updates a #${id} brand`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} brand`;
+  async remove(id: number) {
+
+    const deleted = await this.brandModel.destroy({ where: { id: +id } });
+
+    if (!deleted) {
+      throw new HttpException({ msg: 'Error al eliminar el registro' }, HttpStatus.BAD_REQUEST);
+    }
+
+    return { msg: 'Registro eliminado correctamente' };
   }
 }

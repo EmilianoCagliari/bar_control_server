@@ -17,6 +17,8 @@ export class ProductsController {
   @UseGuards(RolesGuard)
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
+    // console.log("Data producto:", createProductDto);
+
     return this.productsService.create(createProductDto);
   }
 

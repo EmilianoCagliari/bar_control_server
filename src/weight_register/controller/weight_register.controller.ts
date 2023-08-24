@@ -27,13 +27,13 @@ export class WeightRegisterController {
     return this.weightRegisterService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateWeightRegisterDto: UpdateWeightRegisterDto) {
-    return this.weightRegisterService.update(+id, updateWeightRegisterDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateWeightRegisterDto: UpdateWeightRegisterDto) {
+  //   return this.weightRegisterService.update(+id, updateWeightRegisterDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.weightRegisterService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.weightRegisterService.remove(+id);
+  // }
 }

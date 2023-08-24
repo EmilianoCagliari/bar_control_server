@@ -13,26 +13,40 @@ export class ProductsService {
   ) { }
 
   async create(createProductDto: any) {
+
     let created = null;
     //verificar si el email esta creado
     const isProductExists = await this.productModel.findOne({ where: { 'name': createProductDto.name } })
 
     if (!isProductExists) {
-      created = await this.productModel.create(createProductDto);
+      try {
+        created = await this.productModel.create(createProductDto);
+
+      } catch (error) {
+        console.log("error", error.parent.code);
+        
+        throw new HttpException( { 
+            msg: 'Error crear el registro.',
+            errorType: error.name,
+            codeError: error.parent.code
+          }, HttpStatus.BAD_REQUEST);
+
+      }
     }
 
     return created
   }
 
-  findAll() {
-    return this.productModel.findAll();
+  async findAll() {
+    return await this.productModel.findAll();
   }
 
-  findOne(id: number) {
-    return this.productModel.findByPk(+id);
+  async findOne(id: number) {
+    return await this.productModel.findByPk(+id);
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
+  async update(id: number, updateProductDto: UpdateProductDto) {
+
     return `This action updates a #${id} product`;
   }
 
