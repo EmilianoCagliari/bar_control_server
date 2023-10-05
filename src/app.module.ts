@@ -13,6 +13,7 @@ import { Product } from './products/model/entities/product.entity';
 import { WeightRegister } from './weight_register/model/entities/weight_register.entity';
 import { Brand } from './brands/model/entities/brand.entity';
 import { ScaleGateway } from './websockets/scale/gateway.scale';
+import { ScaleService } from './websockets/scale/service.scale';
 
 @Module({
   imports: [
@@ -53,7 +54,7 @@ import { ScaleGateway } from './websockets/scale/gateway.scale';
   ],
   controllers: [],
   providers: [
-    SeedService, ScaleGateway
+    SeedService, ScaleGateway, ScaleService
   ],
 })
 export class AppModule { }
