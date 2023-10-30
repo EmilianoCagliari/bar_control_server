@@ -18,18 +18,19 @@ export class AuthService {
         //Comprueba si hay usuario en la BD
         const user = await this.usersService.findEmail(email);
 
-        //Comprobar password hashed
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-
-        //Si hay datos en user y si la pass de user es valida.
-        if (user && isPasswordValid ) {
-            const { name,
-                surname,
-                password,
-                isActive,
-                createdAt,
-                updatedAt, ...result } = user.dataValues
-            return result;
+        if (user != null) {
+            //Comprobar password hashed
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+            //Si hay datos en user y si la pass de user es valida.
+            if (user && isPasswordValid) {
+                const { name,
+                    surname,
+                    password,
+                    isActive,
+                    createdAt,
+                    updatedAt, ...result } = user.dataValues
+                return result;
+            }
         }
         return null;
     }

@@ -6,6 +6,7 @@ import { SeedService } from './dbAdmin/seed.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
 
   //Utiliza lista blanca para permitir campos estrictamente indicados en los DTO, los que no esten no se podran modificar.
   app.useGlobalPipes(new ValidationPipe({

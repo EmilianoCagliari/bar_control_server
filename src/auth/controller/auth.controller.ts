@@ -20,7 +20,7 @@ export class AuthController {
     @Post('/login')
     async login( @Request() req: any) {
 
-        // log('USER:', req.user);
+        console.log('USER:', req.user);
 
         return this.authService.login(req.user);   
     }
