@@ -1,0 +1,1185 @@
+<svg version="1.1" baseProfile="full" width="6681.5" height="923.0" viewbox="0 0 6681.5 923" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events">
+<desc >#.interface: fill=lightblue
+#.enumeration: fill=lightgreen
+#.type: fill=lightgray
+[AppModule||]
+[AuthModule||]
+[BrandsModule||]
+[SeedService|-userService: UsersService|+seedData(): Promise&lt;void&gt;]
+[SeedService]  -  [UsersService]
+[ProductsModule||]
+[UsersModule||]
+[WeightRegisterModule||]
+[AuthController|-authService: AuthService|+login(): Promise&lt;{ access_token: string; }&gt;;+getJwt(): Promise&lt;{ msg: string; }&gt;]
+[AuthController]  -  [AuthService]
+[JwtAuthGuard||+canActivate(): boolean \| Promise&lt;boolean&gt; \| Observable&lt;boolean&gt;;+handleRequest(): any]
+[LocalAuthGuard||]
+[RolesGuard|-reflector: Reflector|+canActivate(): boolean]
+[CanActivate]&lt;:--[RolesGuard]
+[AuthService|-usersService: UsersService;-jwtService: JwtService|+validateUser(): Promise&lt;any&gt;;+login(): Promise&lt;{ access_token: string; }&gt;]
+[AuthService]  -  [UsersService]
+[JwtStrategy||+validate(): Promise&lt;{ email: any; userId: any; roles: any; }&gt;]
+[Strategy]&lt;:-[JwtStrategy]
+[LocalStrategy|-authService: AuthService|+validate(): Promise&lt;any&gt;]
+[Strategy]&lt;:-[LocalStrategy]
+[LocalStrategy]  -  [AuthService]
+[BrandsController|-brandsService: BrandsService|+create(): Promise&lt;any&gt;;+findAll(): Promise&lt;Brand\[\]&gt;;+findOne(): Promise&lt;Brand&gt;;+update(): UpdateBrandDto;+remove(): Promise&lt;{ msg: string; }&gt;]
+[BrandsController]  -  [BrandsService]
+[BrandsService|-brandModel: typeof Brand|+create(): Promise&lt;any&gt;;+findAll(): Promise&lt;Brand\[\]&gt;;+findOne(): Promise&lt;Brand&gt;;+update(): UpdateBrandDto;+remove(): Promise&lt;{ msg: string; }&gt;]
+[ProductsController|-productsService: ProductsService|+create(): Promise&lt;any&gt;;+findAll(): Promise&lt;Product\[\]&gt;;+findOne(): Promise&lt;Product&gt;;+update(): Promise&lt;string&gt;;+remove(): Promise&lt;{ msg: string; }&gt;]
+[ProductsController]  -  [ProductsService]
+[ProductsService|-productModel: typeof Product|+create(): Promise&lt;any&gt;;+findAll(): Promise&lt;Product\[\]&gt;;+findOne(): Promise&lt;Product&gt;;+update(): Promise&lt;string&gt;;+remove(): Promise&lt;{ msg: string; }&gt;]
+[UsersController|-usersService: UsersService;-patchUserTransformer: PatchUserTransformer|+create(): Promise&lt;{ user_created: boolean; data: any; }&gt;;+findAll(): Promise&lt;User\[\]&gt;;+findOne(): Promise&lt;User&gt;;+update(): Promise&lt;User&gt;;+remove(): Promise&lt;{ msg: string; }&gt;]
+[UsersController]  -  [UsersService]
+[UsersController]  -  [PatchUserTransformer]
+[UsersService|-userModel: typeof User|+create(): Promise&lt;any&gt;;+findAll(): Promise&lt;User\[\]&gt;;+findOne(): Promise&lt;User&gt;;+update(): Promise&lt;User&gt;;+remove(): Promise&lt;{ msg: string; }&gt;;+findEmail(): Promise&lt;User&gt;]
+[ScaleGateway|+server: Server&lt;DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any&gt;;-scaleService: ScaleService|+afterInit(): void;+handleConnection(): void;+handleDisconnect(): void;+handleJoinRoom(): void;+handleIncommingMessage(): void;+handleRoomLeave(): void]
+[OnGatewayInit&lt;T&gt;]&lt;:--[ScaleGateway]
+[OnGatewayConnection&lt;T&gt;]&lt;:--[ScaleGateway]
+[OnGatewayDisconnect&lt;T&gt;]&lt;:--[ScaleGateway]
+[ScaleGateway]  -  [ScaleService]
+[ScaleService|-isDeviceConnected: boolean|+setIsDeviceConnected(): void;+getIsDeviceConnected(): boolean]
+[WeightRegisterController|-weightRegisterService: WeightRegisterService|+create(): Promise&lt;any&gt;;+findAll(): Promise&lt;WeightRegister\[\]&gt;;+findOne(): Promise&lt;WeightRegister&gt;]
+[WeightRegisterController]  -  [WeightRegisterService]
+[WeightRegisterService|-weightRegister: typeof WeightRegister|+create(): Promise&lt;any&gt;;+findAll(): Promise&lt;WeightRegister\[\]&gt;;+findOne(): Promise&lt;WeightRegister&gt;;+update(): Promise&lt;string&gt;;+remove(): Promise&lt;string&gt;]
+[CreateBrandDto|+name: string;+distributor?: string|]
+[UpdateBrandDto||]
+[Brand|+name: string;+distributor: string|]
+[Model&lt;TModelAttributes,TCreationAttributes&gt;]&lt;:-[Brand]
+[CreateProductDto|+name: string;+price: number;+quantity: number;+brand_id: number;+type?: string;+initialWeight: string|]
+[UpdateProductDto||]
+[Product|+name: string;+price: number;+quantity: number;+brand_id: number;+brand: Brand;+type: string;+initialWeight: number|]
+[Model&lt;TModelAttributes,TCreationAttributes&gt;]&lt;:-[Product]
+[Product]  -  [Brand]
+[CreateUserDto|+name: string;+surname: string;+email: string;+password: string;+role?: number|]
+[UpdateUserDto|+name?: string;+surname?: string;+password?: string;+role?: number;+isActive: boolean|]
+[User|+name: string;+surname: string;+email: string;+password: string;+role: number;+isActive: boolean|]
+[Model&lt;TModelAttributes,TCreationAttributes&gt;]&lt;:-[User]
+[&lt;enumeration&gt;Role|Admin;User]
+[PatchUserTransformer||+transform(): UpdateUserDto]
+[CreateWeightRegisterDto|+weight: number;+product_id: number;+user_id: number|]
+[UpdateWeightRegisterDto||]
+[WeightRegister|+weight: number;+product_id: number;+product: Product;+user_id: number;+user: User|]
+[Model&lt;TModelAttributes,TCreationAttributes&gt;]&lt;:-[WeightRegister]
+[WeightRegister]  -  [Product]
+[WeightRegister]  -  [User]</desc>
+<g stroke-width="1.0" text-align="left" font="12pt Helvetica, Arial, sans-serif" font-size="12pt" font-family="Helvetica" font-weight="normal" font-style="normal">
+<g font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round" stroke="#33322E">
+<g stroke="transparent" fill="transparent">
+<rect x="0.0" y="0.0" height="923.0" width="6681.5" stroke="none"></rect>
+</g>
+<g transform="translate(8, 8)" fill="#33322E">
+<g transform="translate(20, 20)" fill="#33322E" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal">
+<path d="M1682.5 584.0 L1682.5 664 L1871 728.078506097561 L1871.0 728.1 " fill="none"></path>
+<path d="M1571.0 368.5 L1571 411 L1843 489.28896473265075 L1843.0 489.3 " fill="none"></path>
+<g stroke-dasharray="6 6">
+<path d="M1880.5 112.8 L1880.5 188 L1880.5 253 L1880.5 253.0 " fill="none"></path>
+</g>
+<path d="M1885.8 112.8 L1880.5 112.8 L1875.2 112.8 L1880.5 99.5 Z"></path>
+<path d="M2010.5 606.5 L2010.5 664 L2010.5 684 L2010.5 684.0 " fill="none"></path>
+<path d="M2272.8 107.3 L2160.5 188 L2160.5 242 L2160.5 242.0 " fill="none"></path>
+<path d="M2276.0 111.6 L2272.8 107.3 L2269.7 102.9 L2283.7 99.5 Z"></path>
+<path d="M2337.7 107.3 L2450 188 L2450 253 L2450.0 253.0 " fill="none"></path>
+<path d="M2340.8 102.9 L2337.7 107.3 L2334.5 111.6 L2326.8 99.5 Z"></path>
+<path d="M2450.0 346.0 L2450 411 L2178 489.28896473265075 L2178.0 489.3 " fill="none"></path>
+<path d="M2741.0 168.0 L2741 188 L2741 215.5 L2741.0 215.5 " fill="none"></path>
+<path d="M3065.0 168.0 L3065 188 L3065 215.5 L3065.0 215.5 " fill="none"></path>
+<path d="M3069.0 644.0 L3040.5 664 L2150 760.398786407767 L2150.0 760.4 " fill="none"></path>
+<path d="M3414.5 579.6 L3803 664 L3803 740.5 L3803.0 740.5 " fill="none"></path>
+<g stroke-dasharray="6 6">
+<path d="M3758.5 112.8 L3758.5 188 L3800.652466367713 208 L3800.7 208.0 " fill="none"></path>
+</g>
+<path d="M3763.8 112.8 L3758.5 112.8 L3753.2 112.8 L3758.5 99.5 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M3993.5 112.8 L3993.5 188 L3993.5 208 L3993.5 208.0 " fill="none"></path>
+</g>
+<path d="M3998.8 112.8 L3993.5 112.8 L3988.2 112.8 L3993.5 99.5 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M4260.5 112.8 L4260.5 188 L4212.607623318386 208 L4212.6 208.0 " fill="none"></path>
+</g>
+<path d="M4265.8 112.8 L4260.5 112.8 L4255.2 112.8 L4260.5 99.5 Z"></path>
+<path d="M3993.5 391.0 L3993.5 411 L3993.5 483.5 L3993.5 483.5 " fill="none"></path>
+<path d="M3443.5 145.5 L3443.5 188 L3443.5 223 L3443.5 223.0 " fill="none"></path>
+<path d="M4957.2 106.0 L4810.75 188 L4810.75 299.5 L4810.75 299.5 L4810.75 411 L4810.75 411 L4810.75 537.5 L4810.75 537.5 L4810.75 664 L4810.75 664 L4938.075112107624 733 L4938.1 733.0 " fill="none"></path>
+<path d="M4959.8 110.7 L4957.2 106.0 L4954.6 101.4 L4968.8 99.5 Z"></path>
+<path d="M4972.8 109.2 L4898.75 188 L4898.75 299.5 L4898.75 299.5 L4898.75 411 L4898.75 411 L4988.5 472.12180349932703 L4988.5 472.1 " fill="none"></path>
+<path d="M4976.7 112.9 L4972.8 109.2 L4968.9 105.6 L4981.9 99.5 Z"></path>
+<path d="M5084.5 617.5 L5084.5 664 L5042.41928251121 733 L5042.4 733.0 " fill="none"></path>
+<path d="M5034.3 106.3 L5172.75 188 L5172.75 299.5 L5172.75 299.5 L5172.75 411 L5172.75 411 L5227.497035573123 465 L5227.5 465.0 " fill="none"></path>
+<path d="M5037.0 101.7 L5034.3 106.3 L5031.5 110.9 L5022.8 99.5 Z"></path>
+<path d="M5064.4 103.1 L5366 188 L5366 234.5 L5366.0 234.5 " fill="none"></path>
+<path d="M5065.8 98.0 L5064.4 103.1 L5063.0 108.2 L5051.6 99.5 Z"></path>
+<path d="M5302.9 364.5 L5257.75 411 L5180.5 467.4047619047619 L5180.5 467.4 " fill="none"></path>
+<path d="M5377.7 364.5 L5386 411 L5349.715415019763 465 L5349.7 465.0 " fill="none"></path>
+<g data-name="AppModule">
+<g fill="#eee8d5" stroke="#33322E" data-name="AppModule">
+<rect x="0.0" y="60.5" height="47.0" width="105.0" data-name="AppModule"></rect>
+<path d="M0.0 91.5 L105.0 91.5" fill="none" data-name="AppModule"></path>
+<path d="M0.0 99.5 L105.0 99.5" fill="none" data-name="AppModule"></path>
+</g>
+<g transform="translate(0, 60.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="AppModule">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="AppModule">
+<a id="src\app.module.ts.AppModule" xlink:href="src\app.module.ts"><text x="44.5" y="13.5" stroke="none" text-anchor="middle" data-name="AppModule">AppModule</text></a>
+
+</g>
+</g>
+<g transform="translate(0, 91.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="AppModule">
+
+</g>
+</g>
+<g transform="translate(0, 99.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="AppModule">
+
+</g>
+</g>
+</g>
+<g data-name="AuthModule">
+<g fill="#eee8d5" stroke="#33322E" data-name="AuthModule">
+<rect x="145.0" y="60.5" height="47.0" width="110.0" data-name="AuthModule"></rect>
+<path d="M145.0 91.5 L255.0 91.5" fill="none" data-name="AuthModule"></path>
+<path d="M145.0 99.5 L255.0 99.5" fill="none" data-name="AuthModule"></path>
+</g>
+<g transform="translate(145, 60.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="AuthModule">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="AuthModule">
+<a id="src\auth\auth.module.ts.AuthModule" xlink:href="src\auth\auth.module.ts"><text x="47.0" y="13.5" stroke="none" text-anchor="middle" data-name="AuthModule">AuthModule</text></a>
+
+</g>
+</g>
+<g transform="translate(145, 91.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AuthModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="AuthModule">
+
+</g>
+</g>
+<g transform="translate(145, 99.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AuthModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="AuthModule">
+
+</g>
+</g>
+</g>
+<g data-name="BrandsModule">
+<g fill="#eee8d5" stroke="#33322E" data-name="BrandsModule">
+<rect x="295.0" y="60.5" height="47.0" width="130.0" data-name="BrandsModule"></rect>
+<path d="M295.0 91.5 L425.0 91.5" fill="none" data-name="BrandsModule"></path>
+<path d="M295.0 99.5 L425.0 99.5" fill="none" data-name="BrandsModule"></path>
+</g>
+<g transform="translate(295, 60.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="BrandsModule">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="BrandsModule">
+<a id="src\brands\brands.module.ts.BrandsModule" xlink:href="src\brands\brands.module.ts"><text x="57.0" y="13.5" stroke="none" text-anchor="middle" data-name="BrandsModule">BrandsModule</text></a>
+
+</g>
+</g>
+<g transform="translate(295, 91.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="BrandsModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="BrandsModule">
+
+</g>
+</g>
+<g transform="translate(295, 99.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="BrandsModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="BrandsModule">
+
+</g>
+</g>
+</g>
+<g data-name="SeedService">
+<g fill="#eee8d5" stroke="#33322E" data-name="SeedService">
+<rect x="1562.0" y="491.0" height="93.0" width="241.0" data-name="SeedService"></rect>
+<path d="M1562.0 522.0 L1803.0 522.0" fill="none" data-name="SeedService"></path>
+<path d="M1562.0 553.0 L1803.0 553.0" fill="none" data-name="SeedService"></path>
+</g>
+<g transform="translate(1562, 491)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="SeedService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="SeedService">
+<a id="src\dbAdmin\seed.service.ts.SeedService" xlink:href="src\dbAdmin\seed.service.ts"><text x="112.5" y="13.5" stroke="none" text-anchor="middle" data-name="SeedService">SeedService</text></a>
+
+</g>
+</g>
+<g transform="translate(1562, 522)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SeedService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SeedService">
+<text x="0.0" y="13.5" stroke="none" data-name="SeedService">-userService: UsersService</text>
+
+</g>
+</g>
+<g transform="translate(1562, 553)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SeedService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SeedService">
+<text x="0.0" y="13.5" stroke="none" data-name="SeedService">+seedData(): Promise&lt;void&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="UsersService">
+<g fill="#eee8d5" stroke="#33322E" data-name="UsersService">
+<rect x="1871.0" y="684.0" height="183.0" width="279.0" data-name="UsersService"></rect>
+<path d="M1871.0 715.0 L2150.0 715.0" fill="none" data-name="UsersService"></path>
+<path d="M1871.0 746.0 L2150.0 746.0" fill="none" data-name="UsersService"></path>
+</g>
+<g transform="translate(1871, 684)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="UsersService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="UsersService">
+<a id="src\users\service\users.service.ts.UsersService" xlink:href="src\users\service\users.service.ts"><text x="131.5" y="13.5" stroke="none" text-anchor="middle" data-name="UsersService">UsersService</text></a>
+
+</g>
+</g>
+<g transform="translate(1871, 715)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UsersService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="UsersService">
+<text x="0.0" y="13.5" stroke="none" data-name="UsersService">-userModel: typeof User</text>
+
+</g>
+</g>
+<g transform="translate(1871, 746)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UsersService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="UsersService">
+<text x="0.0" y="13.5" stroke="none" data-name="UsersService">+create(): Promise&lt;any&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="UsersService">+findAll(): Promise&lt;User[]&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="UsersService">+findOne(): Promise&lt;User&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="UsersService">+update(): Promise&lt;User&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="UsersService">+remove(): Promise&lt;{ msg: string</text>
+<text x="0.0" y="88.5" stroke="none" data-name="UsersService">}&gt;</text>
+<text x="0.0" y="103.5" stroke="none" data-name="UsersService">+findEmail(): Promise&lt;User&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="ProductsModule">
+<g fill="#eee8d5" stroke="#33322E" data-name="ProductsModule">
+<rect x="465.0" y="60.5" height="47.0" width="144.0" data-name="ProductsModule"></rect>
+<path d="M465.0 91.5 L609.0 91.5" fill="none" data-name="ProductsModule"></path>
+<path d="M465.0 99.5 L609.0 99.5" fill="none" data-name="ProductsModule"></path>
+</g>
+<g transform="translate(465, 60.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ProductsModule">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ProductsModule">
+<a id="src\products\products.module.ts.ProductsModule" xlink:href="src\products\products.module.ts"><text x="64.0" y="13.5" stroke="none" text-anchor="middle" data-name="ProductsModule">ProductsModule</text></a>
+
+</g>
+</g>
+<g transform="translate(465, 91.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ProductsModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ProductsModule">
+
+</g>
+</g>
+<g transform="translate(465, 99.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ProductsModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ProductsModule">
+
+</g>
+</g>
+</g>
+<g data-name="UsersModule">
+<g fill="#eee8d5" stroke="#33322E" data-name="UsersModule">
+<rect x="649.0" y="60.5" height="47.0" width="120.0" data-name="UsersModule"></rect>
+<path d="M649.0 91.5 L769.0 91.5" fill="none" data-name="UsersModule"></path>
+<path d="M649.0 99.5 L769.0 99.5" fill="none" data-name="UsersModule"></path>
+</g>
+<g transform="translate(649, 60.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="UsersModule">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="UsersModule">
+<a id="src\users\users.module.ts.UsersModule" xlink:href="src\users\users.module.ts"><text x="52.0" y="13.5" stroke="none" text-anchor="middle" data-name="UsersModule">UsersModule</text></a>
+
+</g>
+</g>
+<g transform="translate(649, 91.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UsersModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="UsersModule">
+
+</g>
+</g>
+<g transform="translate(649, 99.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UsersModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="UsersModule">
+
+</g>
+</g>
+</g>
+<g data-name="WeightRegisterModule">
+<g fill="#eee8d5" stroke="#33322E" data-name="WeightRegisterModule">
+<rect x="809.0" y="60.5" height="47.0" width="195.0" data-name="WeightRegisterModule"></rect>
+<path d="M809.0 91.5 L1004.0 91.5" fill="none" data-name="WeightRegisterModule"></path>
+<path d="M809.0 99.5 L1004.0 99.5" fill="none" data-name="WeightRegisterModule"></path>
+</g>
+<g transform="translate(809, 60.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="WeightRegisterModule">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WeightRegisterModule">
+<a id="src\weight_register\weight_register.module.ts.WeightRegisterModule" xlink:href="src\weight_register\weight_register.module.ts"><text x="89.5" y="13.5" stroke="none" text-anchor="middle" data-name="WeightRegisterModule">WeightRegisterModule</text></a>
+
+</g>
+</g>
+<g transform="translate(809, 91.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WeightRegisterModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WeightRegisterModule">
+
+</g>
+</g>
+<g transform="translate(809, 99.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WeightRegisterModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WeightRegisterModule">
+
+</g>
+</g>
+</g>
+<g data-name="AuthController">
+<g fill="#eee8d5" stroke="#33322E" data-name="AuthController">
+<rect x="1403.5" y="230.5" height="138.0" width="335.0" data-name="AuthController"></rect>
+<path d="M1403.5 261.5 L1738.5 261.5" fill="none" data-name="AuthController"></path>
+<path d="M1403.5 292.5 L1738.5 292.5" fill="none" data-name="AuthController"></path>
+</g>
+<g transform="translate(1403.5, 230.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="AuthController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="AuthController">
+<a id="src\auth\controller\auth.controller.ts.AuthController" xlink:href="src\auth\controller\auth.controller.ts"><text x="159.5" y="13.5" stroke="none" text-anchor="middle" data-name="AuthController">AuthController</text></a>
+
+</g>
+</g>
+<g transform="translate(1403.5, 261.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AuthController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="AuthController">
+<text x="0.0" y="13.5" stroke="none" data-name="AuthController">-authService: AuthService</text>
+
+</g>
+</g>
+<g transform="translate(1403.5, 292.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AuthController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="AuthController">
+<text x="0.0" y="13.5" stroke="none" data-name="AuthController">+login(): Promise&lt;{ access_token: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="AuthController">}&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="AuthController">+getJwt(): Promise&lt;{ msg: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="AuthController">}&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="AuthService">
+<g fill="#eee8d5" stroke="#33322E" data-name="AuthService">
+<rect x="1843.0" y="468.5" height="138.0" width="335.0" data-name="AuthService"></rect>
+<path d="M1843.0 499.5 L2178.0 499.5" fill="none" data-name="AuthService"></path>
+<path d="M1843.0 545.5 L2178.0 545.5" fill="none" data-name="AuthService"></path>
+</g>
+<g transform="translate(1843, 468.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="AuthService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="AuthService">
+<a id="src\auth\service\auth.service.ts.AuthService" xlink:href="src\auth\service\auth.service.ts"><text x="159.5" y="13.5" stroke="none" text-anchor="middle" data-name="AuthService">AuthService</text></a>
+
+</g>
+</g>
+<g transform="translate(1843, 499.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AuthService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="AuthService">
+<text x="0.0" y="13.5" stroke="none" data-name="AuthService">-usersService: UsersService</text>
+<text x="0.0" y="28.5" stroke="none" data-name="AuthService">-jwtService: JwtService</text>
+
+</g>
+</g>
+<g transform="translate(1843, 545.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AuthService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="AuthService">
+<text x="0.0" y="13.5" stroke="none" data-name="AuthService">+validateUser(): Promise&lt;any&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="AuthService">+login(): Promise&lt;{ access_token: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="AuthService">}&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="JwtAuthGuard">
+<g fill="#eee8d5" stroke="#33322E" data-name="JwtAuthGuard">
+<rect x="1044.0" y="41.5" height="85.0" width="557.0" data-name="JwtAuthGuard"></rect>
+<path d="M1044.0 72.5 L1601.0 72.5" fill="none" data-name="JwtAuthGuard"></path>
+<path d="M1044.0 80.5 L1601.0 80.5" fill="none" data-name="JwtAuthGuard"></path>
+</g>
+<g transform="translate(1044, 41.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="JwtAuthGuard">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="JwtAuthGuard">
+<a id="src\auth\guards\jwt-auth.guard.ts.JwtAuthGuard" xlink:href="src\auth\guards\jwt-auth.guard.ts"><text x="270.5" y="13.5" stroke="none" text-anchor="middle" data-name="JwtAuthGuard">JwtAuthGuard</text></a>
+
+</g>
+</g>
+<g transform="translate(1044, 72.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="JwtAuthGuard">
+<g transform="translate(8, 8)" fill="#33322E" data-name="JwtAuthGuard">
+
+</g>
+</g>
+<g transform="translate(1044, 80.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="JwtAuthGuard">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="JwtAuthGuard">
+<text x="0.0" y="13.5" stroke="none" data-name="JwtAuthGuard">+canActivate(): boolean | Promise&lt;boolean&gt; | Observable&lt;boolean&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="JwtAuthGuard">+handleRequest(): any</text>
+
+</g>
+</g>
+</g>
+<g data-name="LocalAuthGuard">
+<g fill="#eee8d5" stroke="#33322E" data-name="LocalAuthGuard">
+<rect x="1641.0" y="60.5" height="47.0" width="144.0" data-name="LocalAuthGuard"></rect>
+<path d="M1641.0 91.5 L1785.0 91.5" fill="none" data-name="LocalAuthGuard"></path>
+<path d="M1641.0 99.5 L1785.0 99.5" fill="none" data-name="LocalAuthGuard"></path>
+</g>
+<g transform="translate(1641, 60.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="LocalAuthGuard">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="LocalAuthGuard">
+<a id="src\auth\guards\local-auth.guard.ts.LocalAuthGuard" xlink:href="src\auth\guards\local-auth.guard.ts"><text x="64.0" y="13.5" stroke="none" text-anchor="middle" data-name="LocalAuthGuard">LocalAuthGuard</text></a>
+
+</g>
+</g>
+<g transform="translate(1641, 91.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="LocalAuthGuard">
+<g transform="translate(8, 8)" fill="#33322E" data-name="LocalAuthGuard">
+
+</g>
+</g>
+<g transform="translate(1641, 99.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="LocalAuthGuard">
+<g transform="translate(8, 8)" fill="#33322E" data-name="LocalAuthGuard">
+
+</g>
+</g>
+</g>
+<g data-name="RolesGuard">
+<g fill="#eee8d5" stroke="#33322E" data-name="RolesGuard">
+<rect x="1778.5" y="253.0" height="93.0" width="204.0" data-name="RolesGuard"></rect>
+<path d="M1778.5 284.0 L1982.5 284.0" fill="none" data-name="RolesGuard"></path>
+<path d="M1778.5 315.0 L1982.5 315.0" fill="none" data-name="RolesGuard"></path>
+</g>
+<g transform="translate(1778.5, 253)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="RolesGuard">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="RolesGuard">
+<a id="src\auth\guards\roles-auth.guard.ts.RolesGuard" xlink:href="src\auth\guards\roles-auth.guard.ts"><text x="94.0" y="13.5" stroke="none" text-anchor="middle" data-name="RolesGuard">RolesGuard</text></a>
+
+</g>
+</g>
+<g transform="translate(1778.5, 284)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="RolesGuard">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="RolesGuard">
+<text x="0.0" y="13.5" stroke="none" data-name="RolesGuard">-reflector: Reflector</text>
+
+</g>
+</g>
+<g transform="translate(1778.5, 315)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="RolesGuard">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="RolesGuard">
+<text x="0.0" y="13.5" stroke="none" data-name="RolesGuard">+canActivate(): boolean</text>
+
+</g>
+</g>
+</g>
+<g data-name="CanActivate">
+<g fill="#eee8d5" stroke="#33322E" data-name="CanActivate">
+<rect x="1825.0" y="68.5" height="31.0" width="111.0" data-name="CanActivate"></rect>
+</g>
+<g transform="translate(1825, 68.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="CanActivate">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="CanActivate">
+<text x="47.5" y="13.5" stroke="none" text-anchor="middle" data-name="CanActivate">CanActivate</text>
+
+</g>
+</g>
+</g>
+<g data-name="JwtStrategy">
+<g fill="#eee8d5" stroke="#33322E" data-name="JwtStrategy">
+<rect x="2022.5" y="242.0" height="115.0" width="276.0" data-name="JwtStrategy"></rect>
+<path d="M2022.5 273.0 L2298.5 273.0" fill="none" data-name="JwtStrategy"></path>
+<path d="M2022.5 281.0 L2298.5 281.0" fill="none" data-name="JwtStrategy"></path>
+</g>
+<g transform="translate(2022.5, 242)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="JwtStrategy">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="JwtStrategy">
+<a id="src\auth\strategy\jwt.strategy.ts.JwtStrategy" xlink:href="src\auth\strategy\jwt.strategy.ts"><text x="130.0" y="13.5" stroke="none" text-anchor="middle" data-name="JwtStrategy">JwtStrategy</text></a>
+
+</g>
+</g>
+<g transform="translate(2022.5, 273)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="JwtStrategy">
+<g transform="translate(8, 8)" fill="#33322E" data-name="JwtStrategy">
+
+</g>
+</g>
+<g transform="translate(2022.5, 281)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="JwtStrategy">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="JwtStrategy">
+<text x="0.0" y="13.5" stroke="none" data-name="JwtStrategy">+validate(): Promise&lt;{ email: any</text>
+<text x="0.0" y="28.5" stroke="none" data-name="JwtStrategy">userId: any</text>
+<text x="0.0" y="43.5" stroke="none" data-name="JwtStrategy">roles: any</text>
+<text x="0.0" y="58.5" stroke="none" data-name="JwtStrategy">}&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="Strategy">
+<g fill="#eee8d5" stroke="#33322E" data-name="Strategy">
+<rect x="2264.3" y="68.5" height="31.0" width="82.0" data-name="Strategy"></rect>
+</g>
+<g transform="translate(2264.25, 68.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Strategy">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Strategy">
+<text x="33.0" y="13.5" stroke="none" text-anchor="middle" data-name="Strategy">Strategy</text>
+
+</g>
+</g>
+</g>
+<g data-name="LocalStrategy">
+<g fill="#eee8d5" stroke="#33322E" data-name="LocalStrategy">
+<rect x="2338.5" y="253.0" height="93.0" width="223.0" data-name="LocalStrategy"></rect>
+<path d="M2338.5 284.0 L2561.5 284.0" fill="none" data-name="LocalStrategy"></path>
+<path d="M2338.5 315.0 L2561.5 315.0" fill="none" data-name="LocalStrategy"></path>
+</g>
+<g transform="translate(2338.5, 253)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="LocalStrategy">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="LocalStrategy">
+<a id="src\auth\strategy\local.strategy.ts.LocalStrategy" xlink:href="src\auth\strategy\local.strategy.ts"><text x="103.5" y="13.5" stroke="none" text-anchor="middle" data-name="LocalStrategy">LocalStrategy</text></a>
+
+</g>
+</g>
+<g transform="translate(2338.5, 284)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="LocalStrategy">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="LocalStrategy">
+<text x="0.0" y="13.5" stroke="none" data-name="LocalStrategy">-authService: AuthService</text>
+
+</g>
+</g>
+<g transform="translate(2338.5, 315)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="LocalStrategy">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="LocalStrategy">
+<text x="0.0" y="13.5" stroke="none" data-name="LocalStrategy">+validate(): Promise&lt;any&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="BrandsController">
+<g fill="#eee8d5" stroke="#33322E" data-name="BrandsController">
+<rect x="2601.5" y="0.0" height="168.0" width="279.0" data-name="BrandsController"></rect>
+<path d="M2601.5 31.0 L2880.5 31.0" fill="none" data-name="BrandsController"></path>
+<path d="M2601.5 62.0 L2880.5 62.0" fill="none" data-name="BrandsController"></path>
+</g>
+<g transform="translate(2601.5, 0)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="BrandsController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="BrandsController">
+<a id="src\brands\controller\brands.controller.ts.BrandsController" xlink:href="src\brands\controller\brands.controller.ts"><text x="131.5" y="13.5" stroke="none" text-anchor="middle" data-name="BrandsController">BrandsController</text></a>
+
+</g>
+</g>
+<g transform="translate(2601.5, 31)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="BrandsController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="BrandsController">
+<text x="0.0" y="13.5" stroke="none" data-name="BrandsController">-brandsService: BrandsService</text>
+
+</g>
+</g>
+<g transform="translate(2601.5, 62)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="BrandsController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="BrandsController">
+<text x="0.0" y="13.5" stroke="none" data-name="BrandsController">+create(): Promise&lt;any&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="BrandsController">+findAll(): Promise&lt;Brand[]&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="BrandsController">+findOne(): Promise&lt;Brand&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="BrandsController">+update(): UpdateBrandDto</text>
+<text x="0.0" y="73.5" stroke="none" data-name="BrandsController">+remove(): Promise&lt;{ msg: string</text>
+<text x="0.0" y="88.5" stroke="none" data-name="BrandsController">}&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="BrandsService">
+<g fill="#eee8d5" stroke="#33322E" data-name="BrandsService">
+<rect x="2601.5" y="215.5" height="168.0" width="279.0" data-name="BrandsService"></rect>
+<path d="M2601.5 246.5 L2880.5 246.5" fill="none" data-name="BrandsService"></path>
+<path d="M2601.5 277.5 L2880.5 277.5" fill="none" data-name="BrandsService"></path>
+</g>
+<g transform="translate(2601.5, 215.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="BrandsService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="BrandsService">
+<a id="src\brands\service\brands.service.ts.BrandsService" xlink:href="src\brands\service\brands.service.ts"><text x="131.5" y="13.5" stroke="none" text-anchor="middle" data-name="BrandsService">BrandsService</text></a>
+
+</g>
+</g>
+<g transform="translate(2601.5, 246.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="BrandsService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="BrandsService">
+<text x="0.0" y="13.5" stroke="none" data-name="BrandsService">-brandModel: typeof Brand</text>
+
+</g>
+</g>
+<g transform="translate(2601.5, 277.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="BrandsService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="BrandsService">
+<text x="0.0" y="13.5" stroke="none" data-name="BrandsService">+create(): Promise&lt;any&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="BrandsService">+findAll(): Promise&lt;Brand[]&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="BrandsService">+findOne(): Promise&lt;Brand&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="BrandsService">+update(): UpdateBrandDto</text>
+<text x="0.0" y="73.5" stroke="none" data-name="BrandsService">+remove(): Promise&lt;{ msg: string</text>
+<text x="0.0" y="88.5" stroke="none" data-name="BrandsService">}&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="ProductsController">
+<g fill="#eee8d5" stroke="#33322E" data-name="ProductsController">
+<rect x="2920.5" y="0.0" height="168.0" width="289.0" data-name="ProductsController"></rect>
+<path d="M2920.5 31.0 L3209.5 31.0" fill="none" data-name="ProductsController"></path>
+<path d="M2920.5 62.0 L3209.5 62.0" fill="none" data-name="ProductsController"></path>
+</g>
+<g transform="translate(2920.5, 0)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ProductsController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ProductsController">
+<a id="src\products\controller\products.controller.ts.ProductsController" xlink:href="src\products\controller\products.controller.ts"><text x="136.5" y="13.5" stroke="none" text-anchor="middle" data-name="ProductsController">ProductsController</text></a>
+
+</g>
+</g>
+<g transform="translate(2920.5, 31)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ProductsController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ProductsController">
+<text x="0.0" y="13.5" stroke="none" data-name="ProductsController">-productsService: ProductsService</text>
+
+</g>
+</g>
+<g transform="translate(2920.5, 62)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ProductsController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ProductsController">
+<text x="0.0" y="13.5" stroke="none" data-name="ProductsController">+create(): Promise&lt;any&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ProductsController">+findAll(): Promise&lt;Product[]&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ProductsController">+findOne(): Promise&lt;Product&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ProductsController">+update(): Promise&lt;string&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="ProductsController">+remove(): Promise&lt;{ msg: string</text>
+<text x="0.0" y="88.5" stroke="none" data-name="ProductsController">}&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="ProductsService">
+<g fill="#eee8d5" stroke="#33322E" data-name="ProductsService">
+<rect x="2925.5" y="215.5" height="168.0" width="279.0" data-name="ProductsService"></rect>
+<path d="M2925.5 246.5 L3204.5 246.5" fill="none" data-name="ProductsService"></path>
+<path d="M2925.5 277.5 L3204.5 277.5" fill="none" data-name="ProductsService"></path>
+</g>
+<g transform="translate(2925.5, 215.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ProductsService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ProductsService">
+<a id="src\products\service\products.service.ts.ProductsService" xlink:href="src\products\service\products.service.ts"><text x="131.5" y="13.5" stroke="none" text-anchor="middle" data-name="ProductsService">ProductsService</text></a>
+
+</g>
+</g>
+<g transform="translate(2925.5, 246.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ProductsService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ProductsService">
+<text x="0.0" y="13.5" stroke="none" data-name="ProductsService">-productModel: typeof Product</text>
+
+</g>
+</g>
+<g transform="translate(2925.5, 277.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ProductsService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ProductsService">
+<text x="0.0" y="13.5" stroke="none" data-name="ProductsService">+create(): Promise&lt;any&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ProductsService">+findAll(): Promise&lt;Product[]&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ProductsService">+findOne(): Promise&lt;Product&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ProductsService">+update(): Promise&lt;string&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="ProductsService">+remove(): Promise&lt;{ msg: string</text>
+<text x="0.0" y="88.5" stroke="none" data-name="ProductsService">}&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="UsersController">
+<g fill="#eee8d5" stroke="#33322E" data-name="UsersController">
+<rect x="3027.5" y="431.0" height="213.0" width="387.0" data-name="UsersController"></rect>
+<path d="M3027.5 462.0 L3414.5 462.0" fill="none" data-name="UsersController"></path>
+<path d="M3027.5 508.0 L3414.5 508.0" fill="none" data-name="UsersController"></path>
+</g>
+<g transform="translate(3027.5, 431)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="UsersController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="UsersController">
+<a id="src\users\controller\users.controller.ts.UsersController" xlink:href="src\users\controller\users.controller.ts"><text x="185.5" y="13.5" stroke="none" text-anchor="middle" data-name="UsersController">UsersController</text></a>
+
+</g>
+</g>
+<g transform="translate(3027.5, 462)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UsersController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="UsersController">
+<text x="0.0" y="13.5" stroke="none" data-name="UsersController">-usersService: UsersService</text>
+<text x="0.0" y="28.5" stroke="none" data-name="UsersController">-patchUserTransformer: PatchUserTransformer</text>
+
+</g>
+</g>
+<g transform="translate(3027.5, 508)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UsersController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="UsersController">
+<text x="0.0" y="13.5" stroke="none" data-name="UsersController">+create(): Promise&lt;{ user_created: boolean</text>
+<text x="0.0" y="28.5" stroke="none" data-name="UsersController">data: any</text>
+<text x="0.0" y="43.5" stroke="none" data-name="UsersController">}&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="UsersController">+findAll(): Promise&lt;User[]&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="UsersController">+findOne(): Promise&lt;User&gt;</text>
+<text x="0.0" y="88.5" stroke="none" data-name="UsersController">+update(): Promise&lt;User&gt;</text>
+<text x="0.0" y="103.5" stroke="none" data-name="UsersController">+remove(): Promise&lt;{ msg: string</text>
+<text x="0.0" y="118.5" stroke="none" data-name="UsersController">}&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="PatchUserTransformer">
+<g fill="#eee8d5" stroke="#33322E" data-name="PatchUserTransformer">
+<rect x="3681.0" y="740.5" height="70.0" width="244.0" data-name="PatchUserTransformer"></rect>
+<path d="M3681.0 771.5 L3925.0 771.5" fill="none" data-name="PatchUserTransformer"></path>
+<path d="M3681.0 779.5 L3925.0 779.5" fill="none" data-name="PatchUserTransformer"></path>
+</g>
+<g transform="translate(3681, 740.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="PatchUserTransformer">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="PatchUserTransformer">
+<a id="src\users\model\transformers\patch-user.transofrmer.ts.PatchUserTransformer" xlink:href="src\users\model\transformers\patch-user.transofrmer.ts"><text x="114.0" y="13.5" stroke="none" text-anchor="middle" data-name="PatchUserTransformer">PatchUserTransformer</text></a>
+
+</g>
+</g>
+<g transform="translate(3681, 771.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="PatchUserTransformer">
+<g transform="translate(8, 8)" fill="#33322E" data-name="PatchUserTransformer">
+
+</g>
+</g>
+<g transform="translate(3681, 779.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="PatchUserTransformer">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="PatchUserTransformer">
+<text x="0.0" y="13.5" stroke="none" data-name="PatchUserTransformer">+transform(): UpdateUserDto</text>
+
+</g>
+</g>
+</g>
+<g data-name="ScaleGateway">
+<g fill="#eee8d5" stroke="#33322E" data-name="ScaleGateway">
+<rect x="3669.0" y="208.0" height="183.0" width="649.0" data-name="ScaleGateway"></rect>
+<path d="M3669.0 239.0 L4318.0 239.0" fill="none" data-name="ScaleGateway"></path>
+<path d="M3669.0 285.0 L4318.0 285.0" fill="none" data-name="ScaleGateway"></path>
+</g>
+<g transform="translate(3669, 208)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ScaleGateway">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ScaleGateway">
+<a id="src\websockets\scale\gateway.scale.ts.ScaleGateway" xlink:href="src\websockets\scale\gateway.scale.ts"><text x="316.5" y="13.5" stroke="none" text-anchor="middle" data-name="ScaleGateway">ScaleGateway</text></a>
+
+</g>
+</g>
+<g transform="translate(3669, 239)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ScaleGateway">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ScaleGateway">
+<text x="0.0" y="13.5" stroke="none" data-name="ScaleGateway">+server: Server&lt;DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ScaleGateway">-scaleService: ScaleService</text>
+
+</g>
+</g>
+<g transform="translate(3669, 285)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ScaleGateway">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ScaleGateway">
+<text x="0.0" y="13.5" stroke="none" data-name="ScaleGateway">+afterInit(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ScaleGateway">+handleConnection(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ScaleGateway">+handleDisconnect(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ScaleGateway">+handleJoinRoom(): void</text>
+<text x="0.0" y="73.5" stroke="none" data-name="ScaleGateway">+handleIncommingMessage(): void</text>
+<text x="0.0" y="88.5" stroke="none" data-name="ScaleGateway">+handleRoomLeave(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="OnGatewayInit&lt;T&gt;">
+<g fill="#eee8d5" stroke="#33322E" data-name="OnGatewayInit&lt;T&gt;">
+<rect x="3677.5" y="68.5" height="31.0" width="162.0" data-name="OnGatewayInit&lt;T&gt;"></rect>
+</g>
+<g transform="translate(3677.5, 68.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="OnGatewayInit&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="OnGatewayInit&lt;T&gt;">
+<text x="73.0" y="13.5" stroke="none" text-anchor="middle" data-name="OnGatewayInit&lt;T&gt;">OnGatewayInit&lt;T&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="OnGatewayConnection&lt;T&gt;">
+<g fill="#eee8d5" stroke="#33322E" data-name="OnGatewayConnection&lt;T&gt;">
+<rect x="3879.5" y="68.5" height="31.0" width="228.0" data-name="OnGatewayConnection&lt;T&gt;"></rect>
+</g>
+<g transform="translate(3879.5, 68.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="OnGatewayConnection&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="OnGatewayConnection&lt;T&gt;">
+<text x="106.0" y="13.5" stroke="none" text-anchor="middle" data-name="OnGatewayConnection&lt;T&gt;">OnGatewayConnection&lt;T&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="OnGatewayDisconnect&lt;T&gt;">
+<g fill="#eee8d5" stroke="#33322E" data-name="OnGatewayDisconnect&lt;T&gt;">
+<rect x="4147.5" y="68.5" height="31.0" width="226.0" data-name="OnGatewayDisconnect&lt;T&gt;"></rect>
+</g>
+<g transform="translate(4147.5, 68.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="OnGatewayDisconnect&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="OnGatewayDisconnect&lt;T&gt;">
+<text x="105.0" y="13.5" stroke="none" text-anchor="middle" data-name="OnGatewayDisconnect&lt;T&gt;">OnGatewayDisconnect&lt;T&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="ScaleService">
+<g fill="#eee8d5" stroke="#33322E" data-name="ScaleService">
+<rect x="3848.0" y="483.5" height="108.0" width="291.0" data-name="ScaleService"></rect>
+<path d="M3848.0 514.5 L4139.0 514.5" fill="none" data-name="ScaleService"></path>
+<path d="M3848.0 545.5 L4139.0 545.5" fill="none" data-name="ScaleService"></path>
+</g>
+<g transform="translate(3848, 483.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ScaleService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ScaleService">
+<a id="src\websockets\scale\service.scale.ts.ScaleService" xlink:href="src\websockets\scale\service.scale.ts"><text x="137.5" y="13.5" stroke="none" text-anchor="middle" data-name="ScaleService">ScaleService</text></a>
+
+</g>
+</g>
+<g transform="translate(3848, 514.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ScaleService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ScaleService">
+<text x="0.0" y="13.5" stroke="none" data-name="ScaleService">-isDeviceConnected: boolean</text>
+
+</g>
+</g>
+<g transform="translate(3848, 545.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ScaleService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ScaleService">
+<text x="0.0" y="13.5" stroke="none" data-name="ScaleService">+setIsDeviceConnected(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ScaleService">+getIsDeviceConnected(): boolean</text>
+
+</g>
+</g>
+</g>
+<g data-name="WeightRegisterController">
+<g fill="#eee8d5" stroke="#33322E" data-name="WeightRegisterController">
+<rect x="3249.5" y="22.5" height="123.0" width="388.0" data-name="WeightRegisterController"></rect>
+<path d="M3249.5 53.5 L3637.5 53.5" fill="none" data-name="WeightRegisterController"></path>
+<path d="M3249.5 84.5 L3637.5 84.5" fill="none" data-name="WeightRegisterController"></path>
+</g>
+<g transform="translate(3249.5, 22.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="WeightRegisterController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WeightRegisterController">
+<a id="src\weight_register\controller\weight_register.controller.ts.WeightRegisterController" xlink:href="src\weight_register\controller\weight_register.controller.ts"><text x="186.0" y="13.5" stroke="none" text-anchor="middle" data-name="WeightRegisterController">WeightRegisterController</text></a>
+
+</g>
+</g>
+<g transform="translate(3249.5, 53.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WeightRegisterController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WeightRegisterController">
+<text x="0.0" y="13.5" stroke="none" data-name="WeightRegisterController">-weightRegisterService: WeightRegisterService</text>
+
+</g>
+</g>
+<g transform="translate(3249.5, 84.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WeightRegisterController">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WeightRegisterController">
+<text x="0.0" y="13.5" stroke="none" data-name="WeightRegisterController">+create(): Promise&lt;any&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WeightRegisterController">+findAll(): Promise&lt;WeightRegister[]&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WeightRegisterController">+findOne(): Promise&lt;WeightRegister&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="WeightRegisterService">
+<g fill="#eee8d5" stroke="#33322E" data-name="WeightRegisterService">
+<rect x="3281.5" y="223.0" height="153.0" width="324.0" data-name="WeightRegisterService"></rect>
+<path d="M3281.5 254.0 L3605.5 254.0" fill="none" data-name="WeightRegisterService"></path>
+<path d="M3281.5 285.0 L3605.5 285.0" fill="none" data-name="WeightRegisterService"></path>
+</g>
+<g transform="translate(3281.5, 223)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="WeightRegisterService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WeightRegisterService">
+<a id="src\weight_register\service\weight_register.service.ts.WeightRegisterService" xlink:href="src\weight_register\service\weight_register.service.ts"><text x="154.0" y="13.5" stroke="none" text-anchor="middle" data-name="WeightRegisterService">WeightRegisterService</text></a>
+
+</g>
+</g>
+<g transform="translate(3281.5, 254)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WeightRegisterService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WeightRegisterService">
+<text x="0.0" y="13.5" stroke="none" data-name="WeightRegisterService">-weightRegister: typeof WeightRegister</text>
+
+</g>
+</g>
+<g transform="translate(3281.5, 285)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WeightRegisterService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WeightRegisterService">
+<text x="0.0" y="13.5" stroke="none" data-name="WeightRegisterService">+create(): Promise&lt;any&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WeightRegisterService">+findAll(): Promise&lt;WeightRegister[]&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WeightRegisterService">+findOne(): Promise&lt;WeightRegister&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="WeightRegisterService">+update(): Promise&lt;string&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="WeightRegisterService">+remove(): Promise&lt;string&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="CreateBrandDto">
+<g fill="#eee8d5" stroke="#33322E" data-name="CreateBrandDto">
+<rect x="4413.5" y="41.5" height="85.0" width="169.0" data-name="CreateBrandDto"></rect>
+<path d="M4413.5 72.5 L4582.5 72.5" fill="none" data-name="CreateBrandDto"></path>
+<path d="M4413.5 118.5 L4582.5 118.5" fill="none" data-name="CreateBrandDto"></path>
+</g>
+<g transform="translate(4413.5, 41.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="CreateBrandDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="CreateBrandDto">
+<a id="src\brands\model\dto\create-brand.dto.ts.CreateBrandDto" xlink:href="src\brands\model\dto\create-brand.dto.ts"><text x="76.5" y="13.5" stroke="none" text-anchor="middle" data-name="CreateBrandDto">CreateBrandDto</text></a>
+
+</g>
+</g>
+<g transform="translate(4413.5, 72.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CreateBrandDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="CreateBrandDto">
+<text x="0.0" y="13.5" stroke="none" data-name="CreateBrandDto">+name: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="CreateBrandDto">+distributor?: string</text>
+
+</g>
+</g>
+<g transform="translate(4413.5, 118.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CreateBrandDto">
+<g transform="translate(8, 8)" fill="#33322E" data-name="CreateBrandDto">
+
+</g>
+</g>
+</g>
+<g data-name="UpdateBrandDto">
+<g fill="#eee8d5" stroke="#33322E" data-name="UpdateBrandDto">
+<rect x="4622.5" y="60.5" height="47.0" width="147.0" data-name="UpdateBrandDto"></rect>
+<path d="M4622.5 91.5 L4769.5 91.5" fill="none" data-name="UpdateBrandDto"></path>
+<path d="M4622.5 99.5 L4769.5 99.5" fill="none" data-name="UpdateBrandDto"></path>
+</g>
+<g transform="translate(4622.5, 60.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="UpdateBrandDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="UpdateBrandDto">
+<a id="src\brands\model\dto\update-brand.dto.ts.UpdateBrandDto" xlink:href="src\brands\model\dto\update-brand.dto.ts"><text x="65.5" y="13.5" stroke="none" text-anchor="middle" data-name="UpdateBrandDto">UpdateBrandDto</text></a>
+
+</g>
+</g>
+<g transform="translate(4622.5, 91.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UpdateBrandDto">
+<g transform="translate(8, 8)" fill="#33322E" data-name="UpdateBrandDto">
+
+</g>
+</g>
+<g transform="translate(4622.5, 99.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UpdateBrandDto">
+<g transform="translate(8, 8)" fill="#33322E" data-name="UpdateBrandDto">
+
+</g>
+</g>
+</g>
+<g data-name="Brand">
+<g fill="#eee8d5" stroke="#33322E" data-name="Brand">
+<rect x="4937.0" y="733.0" height="85.0" width="159.0" data-name="Brand"></rect>
+<path d="M4937.0 764.0 L5096.0 764.0" fill="none" data-name="Brand"></path>
+<path d="M4937.0 810.0 L5096.0 810.0" fill="none" data-name="Brand"></path>
+</g>
+<g transform="translate(4937, 733)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Brand">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Brand">
+<a id="src\brands\model\entities\brand.entity.ts.Brand" xlink:href="src\brands\model\entities\brand.entity.ts"><text x="71.5" y="13.5" stroke="none" text-anchor="middle" data-name="Brand">Brand</text></a>
+
+</g>
+</g>
+<g transform="translate(4937, 764)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Brand">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Brand">
+<text x="0.0" y="13.5" stroke="none" data-name="Brand">+name: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Brand">+distributor: string</text>
+
+</g>
+</g>
+<g transform="translate(4937, 810)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Brand">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Brand">
+
+</g>
+</g>
+</g>
+<g data-name="Model&lt;TModelAttributes,TCreationAttributes&gt;">
+<g fill="#eee8d5" stroke="#33322E" data-name="Model&lt;TModelAttributes,TCreationAttributes&gt;">
+<rect x="4809.5" y="68.5" height="31.0" width="374.0" data-name="Model&lt;TModelAttributes,TCreationAttributes&gt;"></rect>
+</g>
+<g transform="translate(4809.5, 68.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Model&lt;TModelAttributes,TCreationAttributes&gt;">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Model&lt;TModelAttributes,TCreationAttributes&gt;">
+<text x="179.0" y="13.5" stroke="none" text-anchor="middle" data-name="Model&lt;TModelAttributes,TCreationAttributes&gt;">Model&lt;TModelAttributes,TCreationAttributes&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="CreateProductDto">
+<g fill="#eee8d5" stroke="#33322E" data-name="CreateProductDto">
+<rect x="5223.5" y="11.5" height="145.0" width="176.0" data-name="CreateProductDto"></rect>
+<path d="M5223.5 42.5 L5399.5 42.5" fill="none" data-name="CreateProductDto"></path>
+<path d="M5223.5 148.5 L5399.5 148.5" fill="none" data-name="CreateProductDto"></path>
+</g>
+<g transform="translate(5223.5, 11.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="CreateProductDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="CreateProductDto">
+<a id="src\products\model\dto\create-product.dto.ts.CreateProductDto" xlink:href="src\products\model\dto\create-product.dto.ts"><text x="80.0" y="13.5" stroke="none" text-anchor="middle" data-name="CreateProductDto">CreateProductDto</text></a>
+
+</g>
+</g>
+<g transform="translate(5223.5, 42.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CreateProductDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="CreateProductDto">
+<text x="0.0" y="13.5" stroke="none" data-name="CreateProductDto">+name: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="CreateProductDto">+price: number</text>
+<text x="0.0" y="43.5" stroke="none" data-name="CreateProductDto">+quantity: number</text>
+<text x="0.0" y="58.5" stroke="none" data-name="CreateProductDto">+brand_id: number</text>
+<text x="0.0" y="73.5" stroke="none" data-name="CreateProductDto">+type?: string</text>
+<text x="0.0" y="88.5" stroke="none" data-name="CreateProductDto">+initialWeight: string</text>
+
+</g>
+</g>
+<g transform="translate(5223.5, 148.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CreateProductDto">
+<g transform="translate(8, 8)" fill="#33322E" data-name="CreateProductDto">
+
+</g>
+</g>
+</g>
+<g data-name="UpdateProductDto">
+<g fill="#eee8d5" stroke="#33322E" data-name="UpdateProductDto">
+<rect x="5439.5" y="60.5" height="47.0" width="161.0" data-name="UpdateProductDto"></rect>
+<path d="M5439.5 91.5 L5600.5 91.5" fill="none" data-name="UpdateProductDto"></path>
+<path d="M5439.5 99.5 L5600.5 99.5" fill="none" data-name="UpdateProductDto"></path>
+</g>
+<g transform="translate(5439.5, 60.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="UpdateProductDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="UpdateProductDto">
+<a id="src\products\model\dto\update-product.dto.ts.UpdateProductDto" xlink:href="src\products\model\dto\update-product.dto.ts"><text x="72.5" y="13.5" stroke="none" text-anchor="middle" data-name="UpdateProductDto">UpdateProductDto</text></a>
+
+</g>
+</g>
+<g transform="translate(5439.5, 91.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UpdateProductDto">
+<g transform="translate(8, 8)" fill="#33322E" data-name="UpdateProductDto">
+
+</g>
+</g>
+<g transform="translate(5439.5, 99.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UpdateProductDto">
+<g transform="translate(8, 8)" fill="#33322E" data-name="UpdateProductDto">
+
+</g>
+</g>
+</g>
+<g data-name="Product">
+<g fill="#eee8d5" stroke="#33322E" data-name="Product">
+<rect x="4988.5" y="457.5" height="160.0" width="192.0" data-name="Product"></rect>
+<path d="M4988.5 488.5 L5180.5 488.5" fill="none" data-name="Product"></path>
+<path d="M4988.5 609.5 L5180.5 609.5" fill="none" data-name="Product"></path>
+</g>
+<g transform="translate(4988.5, 457.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Product">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Product">
+<a id="src\products\model\entities\product.entity.ts.Product" xlink:href="src\products\model\entities\product.entity.ts"><text x="88.0" y="13.5" stroke="none" text-anchor="middle" data-name="Product">Product</text></a>
+
+</g>
+</g>
+<g transform="translate(4988.5, 488.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Product">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Product">
+<text x="0.0" y="13.5" stroke="none" data-name="Product">+name: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Product">+price: number</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Product">+quantity: number</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Product">+brand_id: number</text>
+<text x="0.0" y="73.5" stroke="none" data-name="Product">+brand: Brand</text>
+<text x="0.0" y="88.5" stroke="none" data-name="Product">+type: string</text>
+<text x="0.0" y="103.5" stroke="none" data-name="Product">+initialWeight: number</text>
+
+</g>
+</g>
+<g transform="translate(4988.5, 609.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Product">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Product">
+
+</g>
+</g>
+</g>
+<g data-name="CreateUserDto">
+<g fill="#eee8d5" stroke="#33322E" data-name="CreateUserDto">
+<rect x="5640.5" y="19.0" height="130.0" width="156.0" data-name="CreateUserDto"></rect>
+<path d="M5640.5 50.0 L5796.5 50.0" fill="none" data-name="CreateUserDto"></path>
+<path d="M5640.5 141.0 L5796.5 141.0" fill="none" data-name="CreateUserDto"></path>
+</g>
+<g transform="translate(5640.5, 19)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="CreateUserDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="CreateUserDto">
+<a id="src\users\model\dto\create-user.dto.ts.CreateUserDto" xlink:href="src\users\model\dto\create-user.dto.ts"><text x="70.0" y="13.5" stroke="none" text-anchor="middle" data-name="CreateUserDto">CreateUserDto</text></a>
+
+</g>
+</g>
+<g transform="translate(5640.5, 50)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CreateUserDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="CreateUserDto">
+<text x="0.0" y="13.5" stroke="none" data-name="CreateUserDto">+name: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="CreateUserDto">+surname: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="CreateUserDto">+email: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="CreateUserDto">+password: string</text>
+<text x="0.0" y="73.5" stroke="none" data-name="CreateUserDto">+role?: number</text>
+
+</g>
+</g>
+<g transform="translate(5640.5, 141)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CreateUserDto">
+<g transform="translate(8, 8)" fill="#33322E" data-name="CreateUserDto">
+
+</g>
+</g>
+</g>
+<g data-name="UpdateUserDto">
+<g fill="#eee8d5" stroke="#33322E" data-name="UpdateUserDto">
+<rect x="5836.5" y="19.0" height="130.0" width="166.0" data-name="UpdateUserDto"></rect>
+<path d="M5836.5 50.0 L6002.5 50.0" fill="none" data-name="UpdateUserDto"></path>
+<path d="M5836.5 141.0 L6002.5 141.0" fill="none" data-name="UpdateUserDto"></path>
+</g>
+<g transform="translate(5836.5, 19)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="UpdateUserDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="UpdateUserDto">
+<a id="src\users\model\dto\update-user.dto.ts.UpdateUserDto" xlink:href="src\users\model\dto\update-user.dto.ts"><text x="75.0" y="13.5" stroke="none" text-anchor="middle" data-name="UpdateUserDto">UpdateUserDto</text></a>
+
+</g>
+</g>
+<g transform="translate(5836.5, 50)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UpdateUserDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="UpdateUserDto">
+<text x="0.0" y="13.5" stroke="none" data-name="UpdateUserDto">+name?: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="UpdateUserDto">+surname?: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="UpdateUserDto">+password?: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="UpdateUserDto">+role?: number</text>
+<text x="0.0" y="73.5" stroke="none" data-name="UpdateUserDto">+isActive: boolean</text>
+
+</g>
+</g>
+<g transform="translate(5836.5, 141)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UpdateUserDto">
+<g transform="translate(8, 8)" fill="#33322E" data-name="UpdateUserDto">
+
+</g>
+</g>
+</g>
+<g data-name="User">
+<g fill="#eee8d5" stroke="#33322E" data-name="User">
+<rect x="5220.5" y="465.0" height="145.0" width="161.0" data-name="User"></rect>
+<path d="M5220.5 496.0 L5381.5 496.0" fill="none" data-name="User"></path>
+<path d="M5220.5 602.0 L5381.5 602.0" fill="none" data-name="User"></path>
+</g>
+<g transform="translate(5220.5, 465)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="User">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="User">
+<a id="src\users\model\entities\user.entity.ts.User" xlink:href="src\users\model\entities\user.entity.ts"><text x="72.5" y="13.5" stroke="none" text-anchor="middle" data-name="User">User</text></a>
+
+</g>
+</g>
+<g transform="translate(5220.5, 496)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="User">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="User">
+<text x="0.0" y="13.5" stroke="none" data-name="User">+name: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="User">+surname: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="User">+email: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="User">+password: string</text>
+<text x="0.0" y="73.5" stroke="none" data-name="User">+role: number</text>
+<text x="0.0" y="88.5" stroke="none" data-name="User">+isActive: boolean</text>
+
+</g>
+</g>
+<g transform="translate(5220.5, 602)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="User">
+<g transform="translate(8, 8)" fill="#33322E" data-name="User">
+
+</g>
+</g>
+</g>
+<g data-name="Role">
+<g fill="lightgreen" stroke="#33322E" data-name="Role">
+<rect x="6042.5" y="45.5" height="77.0" width="65.0" data-name="Role"></rect>
+<path d="M6042.5 76.5 L6107.5 76.5" fill="none" data-name="Role"></path>
+</g>
+<g transform="translate(6042.5, 45.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Role">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Role">
+<a id="src\users\model\enum\role.enum.ts.Role" xlink:href="src\users\model\enum\role.enum.ts"><text x="24.5" y="13.5" stroke="none" text-anchor="middle" data-name="Role">Role</text></a>
+
+</g>
+</g>
+<g transform="translate(6042.5, 76.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Role">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Role">
+<text x="0.0" y="13.5" stroke="none" data-name="Role">Admin</text>
+<a id="src\users\model\entities\user.entity.ts.User" xlink:href="src\users\model\entities\user.entity.ts"><text x="0.0" y="28.5" stroke="none" data-name="Role">User</text></a>
+
+</g>
+</g>
+</g>
+<g data-name="CreateWeightRegisterDto">
+<g fill="#eee8d5" stroke="#33322E" data-name="CreateWeightRegisterDto">
+<rect x="6147.5" y="34.0" height="100.0" width="217.0" data-name="CreateWeightRegisterDto"></rect>
+<path d="M6147.5 65.0 L6364.5 65.0" fill="none" data-name="CreateWeightRegisterDto"></path>
+<path d="M6147.5 126.0 L6364.5 126.0" fill="none" data-name="CreateWeightRegisterDto"></path>
+</g>
+<g transform="translate(6147.5, 34)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="CreateWeightRegisterDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="CreateWeightRegisterDto">
+<a id="src\weight_register\model\dto\create-weight_register.dto.ts.CreateWeightRegisterDto" xlink:href="src\weight_register\model\dto\create-weight_register.dto.ts"><text x="100.5" y="13.5" stroke="none" text-anchor="middle" data-name="CreateWeightRegisterDto">CreateWeightRegisterDto</text></a>
+
+</g>
+</g>
+<g transform="translate(6147.5, 65)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CreateWeightRegisterDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="CreateWeightRegisterDto">
+<text x="0.0" y="13.5" stroke="none" data-name="CreateWeightRegisterDto">+weight: number</text>
+<text x="0.0" y="28.5" stroke="none" data-name="CreateWeightRegisterDto">+product_id: number</text>
+<text x="0.0" y="43.5" stroke="none" data-name="CreateWeightRegisterDto">+user_id: number</text>
+
+</g>
+</g>
+<g transform="translate(6147.5, 126)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CreateWeightRegisterDto">
+<g transform="translate(8, 8)" fill="#33322E" data-name="CreateWeightRegisterDto">
+
+</g>
+</g>
+</g>
+<g data-name="UpdateWeightRegisterDto">
+<g fill="#eee8d5" stroke="#33322E" data-name="UpdateWeightRegisterDto">
+<rect x="6404.5" y="60.5" height="47.0" width="221.0" data-name="UpdateWeightRegisterDto"></rect>
+<path d="M6404.5 91.5 L6625.5 91.5" fill="none" data-name="UpdateWeightRegisterDto"></path>
+<path d="M6404.5 99.5 L6625.5 99.5" fill="none" data-name="UpdateWeightRegisterDto"></path>
+</g>
+<g transform="translate(6404.5, 60.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="UpdateWeightRegisterDto">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="UpdateWeightRegisterDto">
+<a id="src\weight_register\model\dto\update-weight_register.dto.ts.UpdateWeightRegisterDto" xlink:href="src\weight_register\model\dto\update-weight_register.dto.ts"><text x="102.5" y="13.5" stroke="none" text-anchor="middle" data-name="UpdateWeightRegisterDto">UpdateWeightRegisterDto</text></a>
+
+</g>
+</g>
+<g transform="translate(6404.5, 91.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UpdateWeightRegisterDto">
+<g transform="translate(8, 8)" fill="#33322E" data-name="UpdateWeightRegisterDto">
+
+</g>
+</g>
+<g transform="translate(6404.5, 99.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="UpdateWeightRegisterDto">
+<g transform="translate(8, 8)" fill="#33322E" data-name="UpdateWeightRegisterDto">
+
+</g>
+</g>
+</g>
+<g data-name="WeightRegister">
+<g fill="#eee8d5" stroke="#33322E" data-name="WeightRegister">
+<rect x="5276.0" y="234.5" height="130.0" width="180.0" data-name="WeightRegister"></rect>
+<path d="M5276.0 265.5 L5456.0 265.5" fill="none" data-name="WeightRegister"></path>
+<path d="M5276.0 356.5 L5456.0 356.5" fill="none" data-name="WeightRegister"></path>
+</g>
+<g transform="translate(5276, 234.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="WeightRegister">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WeightRegister">
+<a id="src\weight_register\model\entities\weight_register.entity.ts.WeightRegister" xlink:href="src\weight_register\model\entities\weight_register.entity.ts"><text x="82.0" y="13.5" stroke="none" text-anchor="middle" data-name="WeightRegister">WeightRegister</text></a>
+
+</g>
+</g>
+<g transform="translate(5276, 265.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WeightRegister">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WeightRegister">
+<text x="0.0" y="13.5" stroke="none" data-name="WeightRegister">+weight: number</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WeightRegister">+product_id: number</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WeightRegister">+product: Product</text>
+<text x="0.0" y="58.5" stroke="none" data-name="WeightRegister">+user_id: number</text>
+<text x="0.0" y="73.5" stroke="none" data-name="WeightRegister">+user: User</text>
+
+</g>
+</g>
+<g transform="translate(5276, 356.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WeightRegister">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WeightRegister">
+
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

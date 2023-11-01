@@ -11,6 +11,7 @@ import { ScaleService } from "./service.scale";
 
 export class ScaleGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
+    isZero: boolean = false;
 
 
     constructor(private readonly scaleService: ScaleService) { }
@@ -27,25 +28,27 @@ export class ScaleGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
         console.log("Esto se ejecuta cuando alguien se conecto al socket");
 
-        console.log("==== CLIENTE INFO ====", client.handshake);
+        console.log("==== CLIENTE INFO ====", client.handshake.headers['user-agent']);
         const data = client.handshake.headers['user-agent'];
 
-        if (data != null) {
+        if (data == 'arduino-WebSocket-Client') {
             this.scaleService.setIsDeviceConnected(true);
+            this.server.emit('scaleStatus', this.scaleService.getIsDeviceConnected());
+        } else {
             this.server.emit('scaleStatus', this.scaleService.getIsDeviceConnected());
         }
 
         console.log("=== IsConnectedDevice ===", this.scaleService.getIsDeviceConnected());
-    
+
     }
-    
+
     handleDisconnect(client: any) {
         console.log("Esto se ejecuta cuando alguien se desconecto del socket");
 
 
         const data = client.handshake.headers['user-agent'];
 
-        if (data != null) {
+        if (data == 'arduino-WebSocket-Client') {
             this.scaleService.setIsDeviceConnected(false);
             this.server.emit('scaleStatus', this.scaleService.getIsDeviceConnected());
         }
@@ -66,7 +69,6 @@ export class ScaleGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
         client.join(`${room}`);
     }
 
-    
     @SubscribeMessage('event_message') //TODO Backend
     handleIncommingMessage(
         client: Socket,
@@ -75,7 +77,13 @@ export class ScaleGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
         const { data, room } = payload;
         // console.log("=========== Handle Message =========== DATA:", payload)
 
+        if (!this.isZero) {
+            this.server.to(`${room}`).emit('new_weight', data);
+            this.isZero = true;
+        }
+
         if (data !== 0) {
+            this.isZero = false;
             console.log("=== Data peso ===", data);
 
             this.server.to(`${room}`).emit('new_weight', data);
