@@ -27,4 +27,8 @@ export class Product extends Model {
     initialWeight: number;
 
 
+    @Column({ unique: true })
+    barcode: string
+
+
 }
