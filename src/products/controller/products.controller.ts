@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { ProductsService } from '../service/products.service';
 import { CreateProductDto } from '../model/dto/create-product.dto';
 import { UpdateProductDto } from '../model/dto/update-product.dto';
@@ -27,9 +27,17 @@ export class ProductsController {
     return this.productsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+  @HasRoles(Role.Admin)
+  @UseGuards(RolesGuard)
+  @Get(':id(\\d+)')
+  findOne(@Param('id') id: string ) {
+    return this.productsService.findOne( +id );
+  }
+
+  @Get('p')
+  findByBarcode(@Query('bc') bc: string) {
+    // console.log("BC:", +bc);
+    return this.productsService.findByBarcode(`${+bc}`);
   }
 
   @HasRoles(Role.Admin)

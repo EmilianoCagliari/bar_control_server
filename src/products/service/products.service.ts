@@ -45,6 +45,12 @@ export class ProductsService {
     return await this.productModel.findByPk(+id);
   }
 
+  async findByBarcode( bc: string) {
+    return await this.productModel.findAll({ where: {
+      barcode: +bc
+    }})
+  }
+
   async update(id: number, updateProductDto: UpdateProductDto) {
 
     return `This action updates a #${id} product`;

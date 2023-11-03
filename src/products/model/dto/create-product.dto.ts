@@ -3,6 +3,7 @@ import { IsDecimal, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-val
 export class CreateProductDto {
 
     @IsNotEmpty()
+    @IsString()
     name: string;
 
     @IsNotEmpty()
@@ -23,5 +24,10 @@ export class CreateProductDto {
     type?: string;
 
     @IsNotEmpty()   
-    initialWeight: string;
+    @IsDecimal()
+    initialWeight: number;
+
+    @IsNotEmpty()
+    @IsString()
+    barcode: string;
 }
