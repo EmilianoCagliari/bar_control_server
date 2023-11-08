@@ -23,7 +23,7 @@ export class Product extends Model {
     @Column
     type: string;
 
-    @Column({ type: DataType.FLOAT(4, 2) })
+    @Column({ type: DataType.FLOAT(6, 2) })
     initialWeight: number;
 
 

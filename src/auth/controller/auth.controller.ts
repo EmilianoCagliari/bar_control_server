@@ -25,7 +25,7 @@ export class AuthController {
         return this.authService.login(req.user);   
     }
 
-    @HasRoles(Role.User)
+    @HasRoles(Role.Admin)
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Get('/getJwt')
     async getJwt(@Request() req: any) {
