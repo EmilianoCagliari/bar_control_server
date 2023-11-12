@@ -9,6 +9,6 @@ export class CreateWeightRegisterDto {
     product_id: number
 
     @IsInt()
-    user_id: number
+    user_id?: number
 
 }

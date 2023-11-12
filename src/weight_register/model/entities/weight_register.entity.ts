@@ -5,7 +5,7 @@ import { User } from "src/users/model/entities/user.entity";
 @Table
 export class WeightRegister extends Model {
 
-    @Column({ type: DataType.FLOAT(4, 2) })
+    @Column({ type: DataType.FLOAT(6, 2) })
     weight: number;
 
     @ForeignKey(() => Product)

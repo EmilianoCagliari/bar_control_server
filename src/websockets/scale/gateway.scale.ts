@@ -84,7 +84,7 @@ export class ScaleGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
         if (data !== 0) {
             this.isZero = false;
-            console.log("=== Data peso ===", data);
+            // console.log("=== Data peso ===", data);
 
             this.server.to(`${room}`).emit('new_weight', data);
         }

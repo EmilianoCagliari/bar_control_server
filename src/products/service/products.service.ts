@@ -46,7 +46,7 @@ export class ProductsService {
   }
 
   async findByBarcode( bc: string) {
-    return await this.productModel.findAll({ where: {
+    return await this.productModel.findOne({ where: {
       barcode: +bc
     }})
   }
