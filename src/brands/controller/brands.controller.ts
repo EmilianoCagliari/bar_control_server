@@ -21,7 +21,17 @@ export class BrandsController {
   @UseGuards(RolesGuard)
   @Post()
   create(@Body() createBrandDto: CreateBrandDto) {
-    return this.brandsService.create(createBrandDto);
+
+
+
+    const response = this.brandsService.create(createBrandDto);
+
+    const final_response = {
+      'status': 200,
+      'product_created': true,
+      'data': response
+    }
+    return final_response;
   }
 
   @Get()

@@ -16,10 +16,18 @@ export class ProductsController {
   @HasRoles(Role.Admin)
   @UseGuards(RolesGuard)
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
+  async create(@Body() createProductDto: CreateProductDto) {
     // console.log("Data producto:", createProductDto);
 
-    return this.productsService.create(createProductDto);
+    const response = await this.productsService.create(createProductDto);
+
+    const final_response = {
+      'status': 200,
+      'product_created': true,
+      'data': response
+    }
+
+    return final_response;
   }
 
   @Get()
