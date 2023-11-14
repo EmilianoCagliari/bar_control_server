@@ -16,7 +16,7 @@ export class ProductsService {
 
     let created = null;
     //verificar si el email esta creado
-    const isProductExists = await this.productModel.findOne({ where: { 'name': createProductDto.name } })
+    const isProductExists = await this.productModel.findOne({ where: { 'barcode': createProductDto.barcode } })
 
     if (!isProductExists) {
       try {
@@ -32,6 +32,8 @@ export class ProductsService {
           }, HttpStatus.BAD_REQUEST);
 
       }
+    } else {
+      throw new HttpException( 'El producto ya se encuentra registrado', HttpStatus.BAD_REQUEST);
     }
 
     return created

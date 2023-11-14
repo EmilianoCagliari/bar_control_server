@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query, HttpException } from '@nestjs/common';
 import { ProductsService } from '../service/products.service';
 import { CreateProductDto } from '../model/dto/create-product.dto';
 import { UpdateProductDto } from '../model/dto/update-product.dto';
@@ -18,16 +18,21 @@ export class ProductsController {
   @Post()
   async create(@Body() createProductDto: CreateProductDto) {
     // console.log("Data producto:", createProductDto);
+    try {
+      const response = await this.productsService.create(createProductDto);
 
-    const response = await this.productsService.create(createProductDto);
+      const final_response = {
+        'status': 200,
+        'product_created': true,
+        'data': response
+      }
+  
+      return final_response;
 
-    const final_response = {
-      'status': 200,
-      'product_created': true,
-      'data': response
+    } catch( error ) {
+      return error;       
     }
-
-    return final_response;
+    
   }
 
   @Get()
