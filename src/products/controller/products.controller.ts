@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query, HttpException, HttpStatus } from '@nestjs/common';
 import { ProductsService } from '../service/products.service';
 import { CreateProductDto } from '../model/dto/create-product.dto';
 import { UpdateProductDto } from '../model/dto/update-product.dto';
@@ -36,8 +36,18 @@ export class ProductsController {
   }
 
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAllWithPagination(@Query('p') p: number) {
+    try {
+        console.log("p", p);
+      if( isNaN(p) ) {
+        throw new HttpException( {error: "El parameto 'p' es requerido."}, HttpStatus.BAD_REQUEST);
+      }
+      console.log("findAllWithPagination")
+      return this.productsService.findAllWithPagination( p );
+      
+    } catch (error) {
+      return error;
+    }
   }
 
   @HasRoles(Role.Admin)

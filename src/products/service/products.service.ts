@@ -43,6 +43,14 @@ export class ProductsService {
     return await this.productModel.findAll();
   }
 
+  async findAllWithPagination( p: number ) {
+    return await this.productModel.findAndCountAll({
+      limit: 10,
+      offset: +p
+    })
+  }
+
+
   async findOne(id: number) {
     return await this.productModel.findByPk(+id);
   }
