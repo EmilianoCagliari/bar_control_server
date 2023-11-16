@@ -38,7 +38,7 @@ export class ScaleGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
             this.server.emit('scaleStatus', this.scaleService.getIsDeviceConnected());
         }
 
-        console.log("=== IsConnectedDevice ===", this.scaleService.getIsDeviceConnected());
+        console.log("=== Balanza conectada: ===", this.scaleService.getIsDeviceConnected());
 
     }
 
@@ -53,7 +53,7 @@ export class ScaleGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
             this.server.emit('scaleStatus', this.scaleService.getIsDeviceConnected());
         }
 
-        console.log("=== IsConnectedDevice ===", this.scaleService.getIsDeviceConnected());
+        console.log("=== Balanza conectada: ===", this.scaleService.getIsDeviceConnected());
 
     }
 

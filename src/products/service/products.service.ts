@@ -62,8 +62,24 @@ export class ProductsService {
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
+    
+    try {
+      
+     const [affectedCount] = await this.productModel.update(updateProductDto, {where: {
+        id: +id
+      }});
 
-    return `This action updates a #${id} product`;
+      if(affectedCount === 1) {
+        return true;
+      } else {
+        throw new HttpException("Error al actualizar registro, contacte con el administrador", HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+      
+    } catch (error) {
+      return error;
+    }
+
+    
   }
 
   async remove(id: number) {
@@ -71,9 +87,14 @@ export class ProductsService {
     const deleted = await this.productModel.destroy({ where: { id: +id } });
 
     if (!deleted) {
-      throw new HttpException({ msg: 'Error al eliminar el registro' }, HttpStatus.BAD_REQUEST);
+      throw new HttpException( 'Error al eliminar el registro', HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    return { msg: 'Registro eliminado correctamente' };
+    const resp = {
+      'status': 200,
+      'data': 'Registro eliminado correctamente'
+    }
+
+    return resp;
   }
 }

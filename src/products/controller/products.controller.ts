@@ -66,8 +66,24 @@ export class ProductsController {
   @HasRoles(Role.Admin)
   @UseGuards(RolesGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
+  async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+
+    try {
+
+       const response = await this.productsService.update(+id, updateProductDto);
+      
+      const final_response = {
+        'status': 200,
+        'product_created': true,
+        'data': response
+      }
+
+      return final_response;
+
+    } catch (error) {
+      return error;
+    }
+
   }
 
   @HasRoles(Role.Admin)
