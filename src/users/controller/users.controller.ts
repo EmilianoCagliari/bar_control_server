@@ -78,8 +78,11 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get()
   findByEmail(@Query('email') email: string) {
-    console.log("Query");
-    return this.usersService.findEmail(`${email}`);
+    if(email) {
+      console.log("Query");
+      return this.usersService.findEmail(`${email}`);
+    }
+    return this.usersService.findAll();
   }
 
   @UseGuards(JwtAuthGuard)
@@ -88,11 +91,6 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
 
   @HasRoles(Role.Admin)
   @UseGuards(JwtAuthGuard, RolesGuard)

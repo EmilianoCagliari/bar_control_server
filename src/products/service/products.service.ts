@@ -40,7 +40,7 @@ export class ProductsService {
   }
 
   async findAll() {
-    return await this.productModel.findAll();
+    return await this.productModel.findAndCountAll();
   }
 
   async findAllWithPagination( p: number ) {

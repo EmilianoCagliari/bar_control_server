@@ -10,7 +10,7 @@ import { RolesGuard } from 'src/auth/guards/roles-auth.guard';
 @UseGuards(JwtAuthGuard)
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(private readonly productsService: ProductsService) { }
 
 
   @HasRoles(Role.Admin)
@@ -26,25 +26,35 @@ export class ProductsController {
         'product_created': true,
         'data': response
       }
-  
+
       return final_response;
 
-    } catch( error ) {
-      return error;       
+    } catch (error) {
+      return error;
     }
-    
+
   }
 
+  @Get('p')
+  findByBarcode(@Query('bc') bc: string) {
+    // console.log("BC:", +bc);
+    return this.productsService.findByBarcode(`${+bc}`);
+  }
+  
   @Get()
   findAllWithPagination(@Query('p') p: number) {
     try {
+
+      if(p) {
         console.log("p", p);
-      if( isNaN(p) ) {
-        throw new HttpException( {error: "El parameto 'p' es requerido."}, HttpStatus.BAD_REQUEST);
+        if (isNaN(p)) {
+          throw new HttpException({ error: "El parameto 'p' es requerido." }, HttpStatus.BAD_REQUEST);
+        }
+        console.log("findAllWithPagination")
+        return this.productsService.findAllWithPagination(p);
       }
-      console.log("findAllWithPagination")
-      return this.productsService.findAllWithPagination( p );
-      
+      return this.productsService.findAll();
+
     } catch (error) {
       return error;
     }
@@ -53,15 +63,11 @@ export class ProductsController {
   @HasRoles(Role.Admin)
   @UseGuards(RolesGuard)
   @Get(':id(\\d+)')
-  findOne(@Param('id') id: string ) {
-    return this.productsService.findOne( +id );
+  findOne(@Param('id') id: string) {
+    return this.productsService.findOne(+id);
   }
 
-  @Get('p')
-  findByBarcode(@Query('bc') bc: string) {
-    // console.log("BC:", +bc);
-    return this.productsService.findByBarcode(`${+bc}`);
-  }
+ 
 
   @HasRoles(Role.Admin)
   @UseGuards(RolesGuard)
@@ -70,8 +76,8 @@ export class ProductsController {
 
     try {
 
-       const response = await this.productsService.update(+id, updateProductDto);
-      
+      const response = await this.productsService.update(+id, updateProductDto);
+
       const final_response = {
         'status': 200,
         'product_created': true,
