@@ -26,9 +26,10 @@ export class Product extends Model {
     @Column({ type: DataType.FLOAT(6, 2) })
     initialWeight: number;
 
+    @Column({ type: DataType.FLOAT(6, 2) })
+    fullWeight: number;
 
     @Column({ unique: true })
     barcode: string
-
 
 }

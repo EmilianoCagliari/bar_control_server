@@ -3,6 +3,7 @@ import { CreateProductDto } from '../model/dto/create-product.dto';
 import { UpdateProductDto } from '../model/dto/update-product.dto';
 import { Product } from '../model/entities/product.entity';
 import { InjectModel } from '@nestjs/sequelize';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class ProductsService {
@@ -24,16 +25,16 @@ export class ProductsService {
 
       } catch (error) {
         console.log("error", error.parent.code);
-        
-        throw new HttpException( { 
-            msg: 'Error crear el registro.',
-            errorType: error.name,
-            codeError: error.parent.code
-          }, HttpStatus.BAD_REQUEST);
+
+        throw new HttpException({
+          msg: 'Error crear el registro.',
+          errorType: error.name,
+          codeError: error.parent.code
+        }, HttpStatus.BAD_REQUEST);
 
       }
     } else {
-      throw new HttpException( 'El producto ya se encuentra registrado', HttpStatus.BAD_REQUEST);
+      throw new HttpException('El producto ya se encuentra registrado', HttpStatus.BAD_REQUEST);
     }
 
     return created
@@ -43,43 +44,57 @@ export class ProductsService {
     return await this.productModel.findAndCountAll();
   }
 
-  async findAllWithPagination( p: number ) {
+  async findAllWithPagination(p: number) {
     return await this.productModel.findAndCountAll({
       limit: 10,
       offset: +p
     })
   }
 
+  async findProductByName(name: string) {
+    return await this.productModel.findAndCountAll({
+      where: {
+        name: {
+          [Op.like]: `%${name}%`
+        }
+      }
+    });
+
+  }
 
   async findOne(id: number) {
     return await this.productModel.findByPk(+id);
   }
 
-  async findByBarcode( bc: string) {
-    return await this.productModel.findOne({ where: {
-      barcode: +bc
-    }})
+  async findByBarcode(bc: string) {
+    return await this.productModel.findOne({
+      where: {
+        barcode: +bc
+      }
+    })
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
-    
-    try {
-      
-     const [affectedCount] = await this.productModel.update(updateProductDto, {where: {
-        id: +id
-      }});
 
-      if(affectedCount === 1) {
+    try {
+
+      const [affectedCount] = await this.productModel.update(updateProductDto, {
+        where: {
+          id: +id
+        }
+      });
+
+      if (affectedCount === 1) {
         return true;
       } else {
         throw new HttpException("Error al actualizar registro, contacte con el administrador", HttpStatus.INTERNAL_SERVER_ERROR);
       }
-      
+
     } catch (error) {
       return error;
     }
 
-    
+
   }
 
   async remove(id: number) {
@@ -87,7 +102,7 @@ export class ProductsService {
     const deleted = await this.productModel.destroy({ where: { id: +id } });
 
     if (!deleted) {
-      throw new HttpException( 'Error al eliminar el registro', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException('Error al eliminar el registro', HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     const resp = {

@@ -14,6 +14,7 @@ import { WeightRegister } from './weight_register/model/entities/weight_register
 import { Brand } from './brands/model/entities/brand.entity';
 import { ScaleGateway } from './websockets/scale/gateway.scale';
 import { ScaleService } from './websockets/scale/service.scale';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
   imports: [
@@ -50,9 +51,9 @@ import { ScaleService } from './websockets/scale/service.scale';
     ProductsModule,
     AuthModule,
     BrandsModule,
-    WeightRegisterModule
+    WeightRegisterModule,
+    ReportsModule
   ],
-  controllers: [],
   providers: [
     SeedService, ScaleGateway, ScaleService
   ],

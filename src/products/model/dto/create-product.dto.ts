@@ -27,6 +27,10 @@ export class CreateProductDto {
     @IsDecimal()
     initialWeight: number;
 
+    @IsNotEmpty()   
+    @IsDecimal()
+    fullWeight: number;
+
     @IsNotEmpty()
     @IsString()
     barcode: string;

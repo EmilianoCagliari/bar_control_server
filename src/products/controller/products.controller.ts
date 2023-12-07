@@ -6,6 +6,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { HasRoles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/users/model/enum/role.enum';
 import { RolesGuard } from 'src/auth/guards/roles-auth.guard';
+import { query } from 'express';
 
 @UseGuards(JwtAuthGuard)
 @Controller('products')
@@ -59,6 +60,12 @@ export class ProductsController {
       return error;
     }
   }
+
+  @Get('name')
+  findByName( @Query('name') name: string ){
+    return this.productsService.findProductByName(`${name}`);
+  }
+
 
   @HasRoles(Role.Admin)
   @UseGuards(RolesGuard)

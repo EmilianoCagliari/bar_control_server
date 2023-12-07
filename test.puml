@@ -1,0 +1,201 @@
+@startuml barcontrol
+class CreateUserDto {
+    +name: string
+    +surname: string
+    +email: string
+    +password: string
+    +role?: number
+}
+class UpdateUserDto extends CreateUserDto {
+    +name?: string
+    +surname?: string
+    +password?: string
+    +role?: number
+    +isActive: boolean
+}
+enum Role {
+    Admin
+    User
+}
+class User extends Model {
+    +name: string
+    +surname: string
+    +email: string
+    +password: string
+    +role: number
+    +isActive: boolean
+}
+class UsersService {
+    -userModel: typeof User
+    +create(createUserDto: any): Promise<any>
+    +findAll(): Promise<User[]>
+    +findOne(id: number): Promise<User>
+    +update(id: number, updateUserDto: UpdateUserDto): Promise<User>
+    +remove(id: number): Promise<{ msg: string; }>
+    +findEmail(email: string): Promise<User>
+}
+class PatchUserTransformer {
+    +transform(body: any): UpdateUserDto
+}
+class UsersController {
+    -usersService: UsersService
+    -patchUserTransformer: PatchUserTransformer
+    +create(createUserDto: CreateUserDto): Promise<{ status: number; user_created: boolean; data: any; } | HttpException>
+    +findByEmail(email: string): Promise<User> | Promise<User[]>
+    +findOne(id: string): Promise<User>
+    +update(id: string, updateUserDto: UpdateUserDto): Promise<User>
+    +remove(id: string): Promise<{ msg: string; }>
+}
+class UsersModule
+class CreateProductDto {
+    +name: string
+    +price: number
+    +quantity: number
+    +brand_id: number
+    +type?: string
+    +initialWeight: number
+    +barcode: string
+}
+class UpdateProductDto extends CreateProductDto
+class Brand extends Model {
+    +name: string
+    +distributor: string
+}
+class Product extends Model {
+    +name: string
+    +price: number
+    +quantity: number
+    +brand_id: number
+    +brand: Brand
+    +type: string
+    +initialWeight: number
+    +barcode: string
+}
+class ProductsService {
+    -productModel: typeof Product
+    +create(createProductDto: any): Promise<any>
+    +findAll(): Promise<{ rows: Product[]; count: number; }>
+    +findAllWithPagination(p: number): Promise<{ rows: Product[]; count: number; }>
+    +findOne(id: number): Promise<Product>
+    +findByBarcode(bc: string): Promise<Product>
+    +update(id: number, updateProductDto: UpdateProductDto): Promise<any>
+    +remove(id: number): Promise<{ status: number; data: string; }>
+}
+class ProductsController {
+    -productsService: ProductsService
+    +create(createProductDto: CreateProductDto): Promise<any>
+    +findByBarcode(bc: string): Promise<Product>
+    +findAllWithPagination(p: number): any
+    +findOne(id: string): Promise<Product>
+    +update(id: string, updateProductDto: UpdateProductDto): Promise<any>
+    +remove(id: string): Promise<{ status: number; data: string; }>
+}
+class ProductsModule
+class AuthService {
+    -usersService: UsersService
+    -jwtService: JwtService
+    +validateUser(email: string, password: string): Promise<any>
+    +login(user: any): Promise<{ access_token: string; }>
+}
+class LocalStrategy extends PassportStrategy {
+    -authService: AuthService
+    +validate(email: string, password: string): Promise<any>
+}
+class JwtStrategy extends  PassportStrategy{
+    +validate(payload: any): Promise<{ email: any; userId: any; roles: any; }>
+}
+class LocalAuthGuard extends AuthGuard
+class JwtAuthGuard extends AuthGuard {
+    +canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean>
+    +handleRequest(err: any, user: any, info: any): any
+}
+class RolesGuard implements CanActivate {
+    -reflector: Reflector
+    +canActivate(context: ExecutionContext): boolean
+}
+class AuthController {
+    -authService: AuthService
+    +login(req: any): Promise<{ access_token: string; }>
+    +getJwt(req: any): Promise<{ msg: string; }>
+}
+class AuthModule
+class SeedService {
+    -userService: UsersService
+    +seedData(): Promise<void>
+}
+class CreateBrandDto {
+    +name: string
+    +distributor?: string
+}
+class UpdateBrandDto extends CreateBrandDto
+class BrandsService {
+    -brandModel: typeof Brand
+    +create(createBrandDto: any): Promise<any>
+    +findAll(): Promise<Brand[]>
+    +findOne(id: number): Promise<Brand>
+    +update(id: number, updateBrandDto: UpdateBrandDto): UpdateBrandDto
+    +remove(id: number): Promise<{ msg: string; }>
+}
+class BrandsController {
+    -brandsService: BrandsService
+    +create(createBrandDto: CreateBrandDto): { status: number; product_created: boolean; data: Promise<any>; }
+    +findAll(): Promise<Brand[]>
+    +findOne(id: string): Promise<Brand>
+    +update(id: string, updateBrandDto: UpdateBrandDto): UpdateBrandDto
+    +remove(id: string): Promise<{ msg: string; }>
+}
+class BrandsModule
+class CreateWeightRegisterDto {
+    +weight: number
+    +product_id: number
+    +user_id?: number
+}
+class UpdateWeightRegisterDto extends  CreateWeightRegisterDto
+class WeightRegister extends Model {
+    +weight: number
+    +product_id: number
+    +product: Product
+    +user_id: number
+    +user: User
+}
+class WeightRegisterService {
+    -weightRegister: typeof WeightRegister
+    +create(createWeightRegisterDto: any): Promise<any>
+    +findAll(): Promise<WeightRegister[]>
+    +findOne(id: number): Promise<WeightRegister>
+    +update(id: number, updateWeightRegisterDto: UpdateWeightRegisterDto): Promise<string>
+    +remove(id: number): Promise<string>
+}
+class WeightRegisterController {
+    -weightRegisterService: WeightRegisterService
+    +create(createWeight: CreateWeightRegisterDto, _req: any): Promise<any> | HttpException
+    +findAll(): Promise<WeightRegister[]>
+    +findOne(id: string): Promise<WeightRegister>
+}
+class WeightRegisterModule
+class ScaleService {
+    -isDeviceConnected: boolean
+    +setIsDeviceConnected(connected: boolean): void
+    +getIsDeviceConnected(): boolean
+}
+class ScaleGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+    +isZero: boolean
+    -scaleService: ScaleService
+    +server: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
+    +afterInit(server: any): void
+    +handleConnection(client: any, args: any[]): void
+    +handleDisconnect(client: any): void
+    +handleJoinRoom(client: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>, payload: { room: string; }): void
+    +handleIncommingMessage(client: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>, payload: { data: number; room: string; }): void
+    +handleRoomLeave(client: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>, payload: { room: string; }): void
+}
+class AppModule
+
+AuthController .. AuthService
+UsersController .. UsersService
+ProductsController .. ProductsService
+BrandsController .. BrandsService
+WeightRegisterController .. WeightRegisterService
+
+' +bootstrap(): Promise<void>
+@enduml

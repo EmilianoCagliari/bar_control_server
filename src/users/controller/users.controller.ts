@@ -5,7 +5,6 @@ import * as bcrypt from 'bcrypt';
 
 import { UsersService } from '../service/users.service';
 
-import { PatchUserTransformer } from '../model/transformers/patch-user.transofrmer';
 import { CreateUserDto } from '../model/dto/create-user.dto';
 import { UpdateUserDto } from '../model/dto/update-user.dto';
 import { HasRoles } from 'src/auth/decorators/roles.decorator';
@@ -17,8 +16,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 @Controller('users')
 export class UsersController {
   constructor(
-    private readonly usersService: UsersService,
-    private readonly patchUserTransformer: PatchUserTransformer) { }
+    private readonly usersService: UsersService) { }
 
 
   @HasRoles(Role.Admin)
@@ -96,7 +94,6 @@ export class UsersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    // const updateUserDto = this.patchUserTransformer.transform(body);
     return this.usersService.update(+id, updateUserDto);
   }
 
