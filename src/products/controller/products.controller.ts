@@ -46,7 +46,7 @@ export class ProductsController {
   findAllWithPagination(@Query('p') p: number) {
     try {
 
-      if(p) {
+      if( p != undefined ) {
         console.log("p", p);
         if (isNaN(p)) {
           throw new HttpException({ error: "El parameto 'p' es requerido." }, HttpStatus.BAD_REQUEST);
